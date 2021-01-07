@@ -1,4 +1,3 @@
-// import React from 'react';
-// import {ReactComp}
+import { ReactComponent as LogoSVG } from '../../../assets/vector/logo.svg';
 
-// const StyledLogo
+export default LogoSVG;
