@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 
 const StyledAddnotation = styled.span`
   font-style: italic;
-  font-size: 1rem;
+  font-size: 1.4rem;
 `;
 
 const Addnotation = ({ children }) => (

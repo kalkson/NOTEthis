@@ -8,6 +8,7 @@ const StyledTile = styled.div`
   padding: 40px;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 export default StyledTile;
