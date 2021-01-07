@@ -5,16 +5,23 @@ import propTypes from 'prop-types';
 const StyledList = styled.ul`
   list-style: none;
   padding: 0;
-  margin: 40px 0;
+  margin: 0;
 `;
 
-const List = ({ children }) => <StyledList>{children}</StyledList>;
+const List = ({ children, className }) => (
+  <StyledList className={className}>{children}</StyledList>
+);
 
 List.propTypes = {
   children: propTypes.oneOfType([
     propTypes.arrayOf(propTypes.node),
     propTypes.node,
   ]).isRequired,
+  className: propTypes.string,
+};
+
+List.defaultProps = {
+  className: null,
 };
 
 export default List;

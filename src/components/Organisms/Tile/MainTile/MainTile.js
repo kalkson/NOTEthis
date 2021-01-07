@@ -27,14 +27,14 @@ const SettingsButton = styled.button`
 
 const MainTile = ({ handleClick }) => {
   return (
-    <StyledMainTile>
+    <StyledMainTile className="main">
       <Avatar />
       <h2>Cześć, nieznajomy!</h2>
       <Addnotation>
         <a href="http://localhost:3000">Zaloguj się</a> lub{' '}
         <a href="http://localhost:3000">zarejestruj</a>, aby zapisać dane
       </Addnotation>
-      <List>
+      <List className="main__list">
         <ListElement>
           <button onClick={() => handleClick('second', 'notes')} type="button">
             Notatki

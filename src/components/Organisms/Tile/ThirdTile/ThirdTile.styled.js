@@ -14,6 +14,26 @@ const StyledThirdTile = styled(StyledTile)`
   `}
 
   transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+
+  .third {
+    &__headline {
+      margin: 0;
+      padding: 10px 0;
+      font-size: 2.5rem;
+      font-style: bold;
+      border-bottom: solid 2px ${({ theme }) => theme.colors.secondary};
+    }
+
+    &__add-button {
+      padding: 2px;
+      background-color: ${({ theme }) => theme.colors.secondary};
+
+      & > button {
+        font-weight: bold;
+        font-style: italic;
+      }
+    }
+  }
 `;
 
 export default StyledThirdTile;

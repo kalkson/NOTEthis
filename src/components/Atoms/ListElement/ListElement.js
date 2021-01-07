@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 
 const StyledListElement = styled.li`
   cursor: pointer;
-  margin: 7px 0;
+  margin: 9px 0;
 
   & button {
     border: none;
@@ -13,8 +13,8 @@ const StyledListElement = styled.li`
   }
 `;
 
-const ListElement = ({ children }) => (
-  <StyledListElement>{children}</StyledListElement>
+const ListElement = ({ children, className }) => (
+  <StyledListElement className={className}>{children}</StyledListElement>
 );
 
 ListElement.propTypes = {
@@ -22,6 +22,11 @@ ListElement.propTypes = {
     propTypes.arrayOf(propTypes.node),
     propTypes.node,
   ]).isRequired,
+  className: propTypes.string,
+};
+
+ListElement.defaultProps = {
+  className: null,
 };
 
 export default ListElement;
