@@ -7,7 +7,8 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Roboto';
+        font-weight: normal;
     }
 
     html,
@@ -40,6 +41,31 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
     } */
+
+/* roboto-regular- latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), url('../../../../fonts/Roboto-Regular.woff2') format('woff2');
+}
+
+/* roboto-italic - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Roboto'), url('../../../../fonts/Roboto-Italic.woff2') format('woff2');
+}
+
+/* roboto-700 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: bold;
+  font-weight: 700;
+  src: local('Roboto'), url('../../../../fonts/Roboto-Bold.woff2') format('woff2');
+}
+
 `;
 
 export default GlobalStyle;
