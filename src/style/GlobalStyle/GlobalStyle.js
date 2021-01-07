@@ -27,7 +27,8 @@ const GlobalStyle = createGlobalStyle`
         font-size: 1.6rem;
         overflow-y: hidden;
         padding: 75px 200px;
-        background-color: ${({ theme }) => theme.colors.starter};;
+        background-color: ${({ theme }) => theme.colors.starter};
+        max-height: 100vh;
     }
 
     /* a {
