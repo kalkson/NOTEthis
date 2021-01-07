@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import styled from 'styled-components';
 import Addnotation from 'components/Atoms/Addnotation/Addnotation';
 import ListElement from 'components/Atoms/ListElement/ListElement';
@@ -24,9 +25,8 @@ const SettingsButton = styled.button`
   }
 `;
 
-const MainTile = () => {
-  const madafaka = 1;
-  console.log(madafaka);
+const MainTile = ({ handleClick }) => {
+  console.log(handleClick);
   return (
     <StyledMainTile>
       <Avatar />
@@ -36,9 +36,21 @@ const MainTile = () => {
         <a href="http://localhost:3000">zarejestruj</a>, aby zapisać dane
       </Addnotation>
       <List>
-        <ListElement>Notatki</ListElement>
-        <ListElement>Listy</ListElement>
-        <ListElement>Kalendarz</ListElement>
+        <ListElement>
+          <button onClick={() => handleClick('second')} type="button">
+            Notatki
+          </button>
+        </ListElement>
+        <ListElement>
+          <button onClick={() => handleClick('second')} type="button">
+            Listy
+          </button>
+        </ListElement>
+        <ListElement>
+          <button onClick={() => handleClick('second')} type="button">
+            Kalendarz
+          </button>
+        </ListElement>
       </List>
       <SettingsButton>
         <SettingsSVG />
@@ -46,6 +58,10 @@ const MainTile = () => {
       </SettingsButton>
     </StyledMainTile>
   );
+};
+
+MainTile.propTypes = {
+  handleClick: propTypes.func.isRequired,
 };
 
 export default MainTile;

@@ -5,6 +5,12 @@ import propTypes from 'prop-types';
 const StyledListElement = styled.li`
   cursor: pointer;
   margin: 7px 0;
+
+  & button {
+    border: none;
+    background: transparent;
+    outline: none;
+  }
 `;
 
 const ListElement = ({ children }) => (
