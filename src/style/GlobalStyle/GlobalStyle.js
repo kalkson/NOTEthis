@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
         font-family: 'Roboto';
         font-weight: normal;
+        color: ${({ theme }) => theme.colors.primary};
     }
 
     html,
