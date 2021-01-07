@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+// import theme from '../theme/theme';
 
 const GlobalStyle = createGlobalStyle`
     *,
@@ -25,6 +26,8 @@ const GlobalStyle = createGlobalStyle`
     body {
         font-size: 1.6rem;
         overflow-y: hidden;
+        padding: 75px 200px;
+        background-color: ${({ theme }) => theme.colors.starter};;
     }
 
     /* a {

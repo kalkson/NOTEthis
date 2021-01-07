@@ -7,8 +7,8 @@ const App = () => {
   const greeting = 'Hello World!';
   return (
     <>
-      <GlobalStyle />
       <ThemeProvider theme={theme}>
+        <GlobalStyle />
         <div>{greeting}</div>
       </ThemeProvider>
     </>
