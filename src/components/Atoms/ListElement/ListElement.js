@@ -18,7 +18,10 @@ const ListElement = ({ children }) => (
 );
 
 ListElement.propTypes = {
-  children: propTypes.string.isRequired,
+  children: propTypes.oneOfType([
+    propTypes.arrayOf(propTypes.node),
+    propTypes.node,
+  ]).isRequired,
 };
 
 export default ListElement;

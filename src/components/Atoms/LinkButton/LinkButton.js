@@ -8,7 +8,10 @@ const LinkButton = ({ children, border }) => (
 
 LinkButton.propTypes = {
   border: propTypes.bool,
-  children: propTypes.string.isRequired,
+  children: propTypes.oneOfType([
+    propTypes.arrayOf(propTypes.node),
+    propTypes.node,
+  ]).isRequired,
 };
 
 LinkButton.defaultProps = {

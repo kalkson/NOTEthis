@@ -26,7 +26,6 @@ const SettingsButton = styled.button`
 `;
 
 const MainTile = ({ handleClick }) => {
-  console.log(handleClick);
   return (
     <StyledMainTile>
       <Avatar />
@@ -37,17 +36,20 @@ const MainTile = ({ handleClick }) => {
       </Addnotation>
       <List>
         <ListElement>
-          <button onClick={() => handleClick('second')} type="button">
+          <button onClick={() => handleClick('second', 'notes')} type="button">
             Notatki
           </button>
         </ListElement>
         <ListElement>
-          <button onClick={() => handleClick('second')} type="button">
+          <button onClick={() => handleClick('second', 'lists')} type="button">
             Listy
           </button>
         </ListElement>
         <ListElement>
-          <button onClick={() => handleClick('second')} type="button">
+          <button
+            onClick={() => handleClick('second', 'calendar')}
+            type="button"
+          >
             Kalendarz
           </button>
         </ListElement>
