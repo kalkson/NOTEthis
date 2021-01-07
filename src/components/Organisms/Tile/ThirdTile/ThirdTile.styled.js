@@ -1,6 +1,11 @@
 import styled from 'styled-components';
-import Tile from '../Tile';
+import StyledTile from '../Tile.styled';
 
-const StyledThirdTile = styled(Tile)``;
+const StyledThirdTile = styled(StyledTile)`
+  z-index: 8;
+  transform: translateX(-100%);
+
+  transition: transform 300ms ease-in;
+`;
 
 export default StyledThirdTile;

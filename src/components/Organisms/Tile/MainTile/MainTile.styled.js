@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import Tile from '../Tile';
+import StyledTile from '../Tile.styled';
 
-const StyledMainTile = styled(Tile)``;
+const StyledMainTile = styled(StyledTile)`
+  z-index: 10;
+`;
 
 export default StyledMainTile;
