@@ -24,16 +24,6 @@ const StyledThirdTile = styled(StyledTile)`
       border-bottom: solid 2px ${({ theme }) => theme.colors.secondary};
     }
 
-    &__add-button {
-      padding: 2px;
-      background-color: ${({ theme }) => theme.colors.secondary};
-
-      & > button {
-        font-weight: bold;
-        font-style: italic;
-      }
-    }
-
     &__active-list {
       border-bottom: solid 1px ${({ theme }) => theme.colors.secondary};
     }

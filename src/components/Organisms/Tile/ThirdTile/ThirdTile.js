@@ -22,18 +22,18 @@ const ThirdTile = forwardRef(({ isActive, data, type }, ref) => {
         <div className="third__list-container">
           <List className="third__active-list">
             {data.todos?.map(item => (
-              <ListElement key={item}>
+              <ListElement key={item} type="uncompleted-task">
                 <button type="button">{item}</button>
               </ListElement>
             ))}
-            <ListElement className="third__add-button">
+            <ListElement className="third__add-button" type="add-button">
               <button type="button">dodaj nowe zadanie</button>
             </ListElement>
           </List>
 
           <List className="third__archived-list">
             {data.completed?.map(item => (
-              <ListElement key={item}>
+              <ListElement key={item} type="completed-task">
                 <button type="button">{item}</button>
               </ListElement>
             ))}

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
+import { ReactComponent as AddSVG } from 'assets/vector/add-task-icon.svg';
 import { ReactComponent as ArrowRightSVG } from '../../../assets/vector/arrow-right-icon.svg';
 import { ReactComponent as CheckedSVG } from '../../../assets/vector/checked-icon.svg';
-// import { ReactComponent as UncheckedSVG } from '../../../assets/vector/unchecked-icon.svg';
+import { ReactComponent as UncheckedSVG } from '../../../assets/vector/unchecked-icon.svg';
 
 const StyledListElement = styled.li`
   cursor: pointer;
@@ -44,17 +45,69 @@ const StyledListElement = styled.li`
         : null}
   }
 
+  ${({ type, theme }) =>
+    type === 'add-button'
+      ? `
+        padding: 2px;
+    background-color: ${theme.colors.secondary};
+
+    & > button {
+      font-weight: bold;
+      font-style: italic;
+    }
+    `
+      : null}
+
+  ${({ type }) =>
+    type === 'add-button' || type === 'uncompleted-task'
+      ? `
+        transition: transform 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+        &:hover {
+          transform: translateY(-2px);
+          
+          button {
+            text-decoration: underline;
+          }
+        }
+    `
+      : null}
+
+  ${({ type }) =>
+    type === 'completed-task'
+      ? `
+        &:hover {
+          button {
+            text-decoration: line-through;
+          }
+        }
+    `
+      : null}
+
   .arrow-right-icon {
     margin-right: 6px;
     transform: translateY(-1px);
   }
 
+  .checked-icon,
+  .unchecked-icon,
+  .add-button-icon {
+    margin-right: 6px;
+    width: 14px;
+    height: 14px;
+    transform: translateY(1px);
+  }
+
   .checked-icon {
     fill: ${({ theme }) => theme.colors.secondary};
-    margin-right: 6px;
-    width: 18px;
-    height: 18px;
-    transform: translateY(2px);
+  }
+
+  .unchecked-icon {
+    fill: ${({ theme }) => theme.colors.primary};
+  }
+
+  .add-button-icon {
+    fill: ${({ theme }) => theme.colors.primary};
+    margin-left: 2px;
   }
 `;
 
@@ -89,6 +142,22 @@ const ListElement = ({ children, className, type, counter, isActive }) => {
       return (
         <StyledListElement type="completed-task" className={className}>
           <CheckedSVG className="checked-icon" />
+          {children}
+        </StyledListElement>
+      );
+    }
+    case 'uncompleted-task': {
+      return (
+        <StyledListElement type="uncompleted-task" className={className}>
+          <UncheckedSVG className="unchecked-icon" />
+          {children}
+        </StyledListElement>
+      );
+    }
+    case 'add-button': {
+      return (
+        <StyledListElement type="add-button" className={className}>
+          <AddSVG className="add-button-icon" />
           {children}
         </StyledListElement>
       );
