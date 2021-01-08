@@ -9,10 +9,6 @@ const StyledTile = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-
-  & li button {
-    font-size: 1.9rem;
-  }
 `;
 
 export default StyledTile;

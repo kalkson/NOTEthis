@@ -2,18 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
 import { ReactComponent as ArrowRightSVG } from '../../../assets/vector/arrow-right-icon.svg';
+import { ReactComponent as CheckedSVG } from '../../../assets/vector/checked-icon.svg';
+// import { ReactComponent as UncheckedSVG } from '../../../assets/vector/unchecked-icon.svg';
 
 const StyledListElement = styled.li`
   cursor: pointer;
   margin: 9px 0;
   position: relative;
   width: fit-content;
+  /* display: flex; */
+  /* align-items: center; */
 
   & button {
     border: none;
     background: transparent;
     outline: none;
+    transition: font-size 0.05s ease-in-out;
+
     font-weight: ${({ isActive }) => (isActive ? 'bold' : null)};
+    font-size: ${({ isActive, type }) =>
+      isActive && type === 'main' ? '3rem' : '1.9rem'};
   }
 
   &:after {
@@ -38,6 +46,15 @@ const StyledListElement = styled.li`
 
   .arrow-right-icon {
     margin-right: 6px;
+    transform: translateY(-1px);
+  }
+
+  .checked-icon {
+    fill: ${({ theme }) => theme.colors.secondary};
+    margin-right: 6px;
+    width: 18px;
+    height: 18px;
+    transform: translateY(2px);
   }
 `;
 
@@ -60,10 +77,18 @@ const ListElement = ({ children, className, type, counter, isActive }) => {
       return (
         <StyledListElement
           type="active-item"
-          counter={counter}
           className={className}
+          isActive={isActive}
         >
           <ArrowRightSVG className="arrow-right-icon" />
+          {children}
+        </StyledListElement>
+      );
+    }
+    case 'completed-task': {
+      return (
+        <StyledListElement type="completed-task" className={className}>
+          <CheckedSVG className="checked-icon" />
           {children}
         </StyledListElement>
       );

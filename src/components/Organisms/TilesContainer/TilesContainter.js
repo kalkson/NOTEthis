@@ -11,6 +11,7 @@ const TilesContainer = () => {
 
   const [isSecondActive, setSecondActivity] = useState(false);
   const [isThirdActive, setThirdActivity] = useState(false);
+  const [activePosition, setActivePosition] = useState(null);
   const [activeType, setActiveType] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [activeThirdData, setActiveThirdData] = useState([]);
@@ -114,6 +115,8 @@ const TilesContainer = () => {
         data={activeData}
         type={activeType}
         ref={secondRef}
+        activePosition={activePosition}
+        setActivePosition={setActivePosition}
       />
       <ThirdTile
         isActive={isThirdActive}
