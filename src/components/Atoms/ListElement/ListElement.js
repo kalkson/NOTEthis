@@ -13,9 +13,19 @@ const StyledListElement = styled.li`
   }
 `;
 
-const ListElement = ({ children, className }) => (
-  <StyledListElement className={className}>{children}</StyledListElement>
-);
+const ListElement = ({ children, className, type }) => {
+  switch (type) {
+    case 'main': {
+      return (
+        <StyledListElement className={className}>{children}</StyledListElement>
+      );
+    }
+    default:
+      return (
+        <StyledListElement className={className}>{children}</StyledListElement>
+      );
+  }
+};
 
 ListElement.propTypes = {
   children: propTypes.oneOfType([
@@ -23,10 +33,12 @@ ListElement.propTypes = {
     propTypes.node,
   ]).isRequired,
   className: propTypes.string,
+  type: propTypes.string,
 };
 
 ListElement.defaultProps = {
   className: null,
+  type: null,
 };
 
 export default ListElement;

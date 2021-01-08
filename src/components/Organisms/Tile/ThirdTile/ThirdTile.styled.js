@@ -33,6 +33,41 @@ const StyledThirdTile = styled(StyledTile)`
         font-style: italic;
       }
     }
+
+    &__active-list {
+      border-bottom: solid 1px ${({ theme }) => theme.colors.secondary};
+    }
+
+    &__archived-list {
+      & li button {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    &__list-container {
+      margin: 30px 0;
+      overflow-y: hidden;
+
+      ::-webkit-scrollbar {
+        width: 3px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    }
+
+    &__list-container:hover {
+      overflow-y: scroll;
+    }
   }
 `;
 

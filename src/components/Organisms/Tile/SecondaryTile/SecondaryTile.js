@@ -7,6 +7,7 @@ import Addnotation from 'components/Atoms/Addnotation/Addnotation';
 import StyledSecondaryTile from './SecondaryTile.styled';
 
 const SecondaryTile = ({ isActive, data, handleClick }) => {
+  console.log(data);
   return (
     <StyledSecondaryTile className="second" isActive={isActive}>
       <TileButton>Stwórz nową listę</TileButton>

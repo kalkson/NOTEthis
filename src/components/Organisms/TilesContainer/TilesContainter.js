@@ -19,18 +19,8 @@ const TilesContainer = () => {
           content:
             'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio iusto placeat dignissimos consectetur vitae magnam corporis similique quam, temporibus distinctio?',
         },
-        {
-          title: 'Zjadłem dziś bananów 100',
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. oris similique quam, temporibus distinctio?',
-        },
       ],
       archived: [
-        {
-          title: 'Ile lat ma Damian?',
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio iusto placeat dignissimos consectetur vitae magnam corporis similique quam, temporibus distinctio?',
-        },
         {
           title: 'Zjadłem dziś bananów 100',
           content:
@@ -43,46 +33,7 @@ const TilesContainer = () => {
         {
           title: 'zakupy',
           todos: ['jajka', 'ocet', 'mleko', 'mąka'],
-        },
-        {
-          title: 'do zrobienia na dziś',
-          todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-        },
-        {
-          title: 'zakupy',
-          todos: ['jajka', 'ocet', 'mleko', 'mąka'],
-        },
-        {
-          title: 'do zrobienia na dziś',
-          todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-        },
-        {
-          title: 'zakupy',
-          todos: ['jajka', 'ocet', 'mleko', 'mąka'],
-        },
-        {
-          title: 'do zrobienia na dziś',
-          todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-        },
-        {
-          title: 'zakupy',
-          todos: ['jajka', 'ocet', 'mleko', 'mąka'],
-        },
-        {
-          title: 'do zrobienia na dziś',
-          todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-        },
-        {
-          title: 'zakupy',
-          todos: ['jajka', 'ocet', 'mleko', 'mąka'],
-        },
-        {
-          title: 'do zrobienia na dziś',
-          todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-        },
-        {
-          title: 'zakupy',
-          todos: ['jajka', 'ocet', 'mleko', 'mąka'],
+          completed: ['cukier', 'woda', 'bułki'],
         },
         {
           title: 'do zrobienia na dziś',
@@ -90,10 +41,6 @@ const TilesContainer = () => {
         },
       ],
       archived: [
-        {
-          title: 'zakupy',
-          todos: ['jajka', 'ocet', 'mleko', 'mąka'],
-        },
         {
           title: 'do zrobienia na dziś',
           todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],

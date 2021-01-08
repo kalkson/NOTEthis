@@ -9,11 +9,11 @@ const ThirdTile = ({ isActive, data, type }) => {
 
   return (
     <StyledThirdTile isActive={isActive}>
-      <>
-        <h3 className="third__headline">{data.title}</h3>
+      <h3 className="third__headline">{data.title}</h3>
+      <div className="third__list-container">
         {type === 'notes' && <p>{data.content}</p>}
         {type === 'lists' && (
-          <List>
+          <List className="third__active-list">
             {data.todos?.map(item => (
               <ListElement key={item}>
                 <button type="button">{item}</button>
@@ -24,7 +24,17 @@ const ThirdTile = ({ isActive, data, type }) => {
             </ListElement>
           </List>
         )}
-      </>
+
+        {type === 'lists' && (
+          <List className="third__archived-list">
+            {data.completed?.map(item => (
+              <ListElement key={item}>
+                <button type="button">{item}</button>
+              </ListElement>
+            ))}
+          </List>
+        )}
+      </div>
     </StyledThirdTile>
   );
 };
