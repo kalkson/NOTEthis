@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import propTypes from 'prop-types';
 import List from 'components/Molecules/List/List';
 import ListElement from 'components/Atoms/ListElement/ListElement';
+import ListHeadline from 'components/Molecules/ListHeadline/ListHeadline';
 import StyledThirdTile from './ThirdTile.styled';
 // import Tile from '../Tile';
 
@@ -9,7 +10,7 @@ const ThirdTile = forwardRef(({ isActive, data, type }, ref) => {
   if (type === 'notes')
     return (
       <StyledThirdTile isActive={isActive} ref={ref}>
-        <h3 className="third__headline">{data.title}</h3>
+        <ListHeadline className="third__headline">{data.title}</ListHeadline>
         <p>{data.content}</p>
       </StyledThirdTile>
     );
@@ -17,7 +18,7 @@ const ThirdTile = forwardRef(({ isActive, data, type }, ref) => {
   if (type === 'lists')
     return (
       <StyledThirdTile isActive={isActive} ref={ref}>
-        <h3 className="third__headline">{data.title}</h3>
+        <ListHeadline className="third__headline">{data.title}</ListHeadline>
         <div className="third__list-container">
           <List className="third__active-list">
             {data.todos?.map(item => (
