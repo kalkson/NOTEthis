@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import propTypes from 'prop-types';
 import List from 'components/Molecules/List/List';
 import ListElement from 'components/Atoms/ListElement/ListElement';
 import StyledThirdTile from './ThirdTile.styled';
+// import Tile from '../Tile';
 
-const ThirdTile = ({ isActive, data, type }) => {
-  console.log(data?.todos);
+const ThirdTile = forwardRef(({ isActive, data, type }, ref) => {
+  if (type === 'notes')
+    return (
+      <StyledThirdTile isActive={isActive} ref={ref}>
+        <h3 className="third__headline">{data.title}</h3>
+        <p>{data.content}</p>
+      </StyledThirdTile>
+    );
 
-  return (
-    <StyledThirdTile isActive={isActive}>
-      <h3 className="third__headline">{data.title}</h3>
-      <div className="third__list-container">
-        {type === 'notes' && <p>{data.content}</p>}
-        {type === 'lists' && (
+  if (type === 'lists')
+    return (
+      <StyledThirdTile isActive={isActive} ref={ref}>
+        <h3 className="third__headline">{data.title}</h3>
+        <div className="third__list-container">
           <List className="third__active-list">
             {data.todos?.map(item => (
               <ListElement key={item}>
@@ -23,9 +29,7 @@ const ThirdTile = ({ isActive, data, type }) => {
               <button type="button">dodaj nowe zadanie</button>
             </ListElement>
           </List>
-        )}
 
-        {type === 'lists' && (
           <List className="third__archived-list">
             {data.completed?.map(item => (
               <ListElement key={item}>
@@ -33,11 +37,14 @@ const ThirdTile = ({ isActive, data, type }) => {
               </ListElement>
             ))}
           </List>
-        )}
-      </div>
-    </StyledThirdTile>
-  );
-};
+        </div>
+      </StyledThirdTile>
+    );
+
+  return null;
+});
+
+ThirdTile.displayName = 'SecondaryTile';
 
 ThirdTile.propTypes = {
   isActive: propTypes.bool.isRequired,
@@ -47,4 +54,5 @@ ThirdTile.propTypes = {
   type: propTypes.string.isRequired,
 };
 
+// export default Tile(ThirdTile);
 export default ThirdTile;

@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import propTypes from 'prop-types';
-import StyledTile from './Tile.styled';
 
-const Tile = ({ children }) => <StyledTile>{children}</StyledTile>;
+const Tile = Component => {
+  const TileHOC = props => {
+    const tile = useRef(null);
+
+    return <Component {...props} ref={tile} />;
+  };
+  TileHOC.displayName = 'Tile';
+  return TileHOC;
+};
+
+Tile.displayName = 'Tile';
 
 Tile.propTypes = {
   children: propTypes.oneOfType([

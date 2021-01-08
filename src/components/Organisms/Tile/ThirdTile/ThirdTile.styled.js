@@ -20,7 +20,7 @@ const StyledThirdTile = styled(StyledTile)`
       margin: 0;
       padding: 10px 0;
       font-size: 2.5rem;
-      font-style: bold;
+      font-weight: bold;
       border-bottom: solid 2px ${({ theme }) => theme.colors.secondary};
     }
 

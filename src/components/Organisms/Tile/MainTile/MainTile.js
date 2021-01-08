@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import propTypes from 'prop-types';
 import styled from 'styled-components';
 import Addnotation from 'components/Atoms/Addnotation/Addnotation';
@@ -7,6 +7,7 @@ import List from 'components/Molecules/List/List';
 import Avatar from 'components/Molecules/Avatar/Avatar';
 import { ReactComponent as SettingsSVG } from '../../../../assets/vector/settings-icon.svg';
 import StyledMainTile from './MainTile.styled';
+// import Tile from '../Tile';
 
 const SettingsButton = styled.button`
   margin-top: auto;
@@ -25,9 +26,13 @@ const SettingsButton = styled.button`
   }
 `;
 
-const MainTile = ({ handleClick }) => {
+const MainTile = forwardRef(({ handleClick, counters }, ref) => {
+  // useEffect(() => {
+  //   handleReveal();
+  // });
+
   return (
-    <StyledMainTile className="main">
+    <StyledMainTile className="main" ref={ref}>
       <Avatar />
       <h2>Cześć, nieznajomy!</h2>
       <Addnotation>
@@ -35,22 +40,14 @@ const MainTile = ({ handleClick }) => {
         <a href="http://localhost:3000">zarejestruj</a>, aby zapisać dane
       </Addnotation>
       <List className="main__list">
-        <ListElement>
+        <ListElement type="main" counter={counters[0]}>
           <button onClick={() => handleClick('second', 'notes')} type="button">
             Notatki
           </button>
         </ListElement>
-        <ListElement>
+        <ListElement type="main" counter={counters[1]}>
           <button onClick={() => handleClick('second', 'lists')} type="button">
             Listy
-          </button>
-        </ListElement>
-        <ListElement>
-          <button
-            onClick={() => handleClick('second', 'calendar')}
-            type="button"
-          >
-            Kalendarz
           </button>
         </ListElement>
       </List>
@@ -60,10 +57,18 @@ const MainTile = ({ handleClick }) => {
       </SettingsButton>
     </StyledMainTile>
   );
-};
+});
+
+MainTile.displayName = 'MainTile';
 
 MainTile.propTypes = {
   handleClick: propTypes.func.isRequired,
+  counters: propTypes.shape(propTypes.number),
+  // handleReveal: propTypes.func.isRequired,
+};
+
+MainTile.defaultProps = {
+  counters: [0, 0],
 };
 
 export default MainTile;
