@@ -13,6 +13,7 @@ const StyledListElement = styled.li`
     border: none;
     background: transparent;
     outline: none;
+    font-weight: ${({ isActive }) => (isActive ? 'bold' : null)};
   }
 
   &:after {
@@ -40,11 +41,17 @@ const StyledListElement = styled.li`
   }
 `;
 
-const ListElement = ({ children, className, type, counter }) => {
+const ListElement = ({ children, className, type, counter, isActive }) => {
+  console.log(isActive);
   switch (type) {
     case 'main': {
       return (
-        <StyledListElement type="main" counter={counter} className={className}>
+        <StyledListElement
+          type="main"
+          counter={counter}
+          className={className}
+          isActive={isActive}
+        >
           {children}
         </StyledListElement>
       );
@@ -76,11 +83,13 @@ ListElement.propTypes = {
   className: propTypes.string,
   type: propTypes.string,
   counter: propTypes.number,
+  isActive: propTypes.bool,
 };
 
 ListElement.defaultProps = {
   className: null,
   type: null,
+  isActive: null,
   counter: 0,
 };
 

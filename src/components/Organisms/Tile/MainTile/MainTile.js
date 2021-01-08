@@ -26,7 +26,7 @@ const SettingsButton = styled.button`
   }
 `;
 
-const MainTile = forwardRef(({ handleClick, counters }, ref) => {
+const MainTile = forwardRef(({ handleClick, counters, type }, ref) => {
   // useEffect(() => {
   //   handleReveal();
   // });
@@ -40,12 +40,20 @@ const MainTile = forwardRef(({ handleClick, counters }, ref) => {
         <a href="http://localhost:3000">zarejestruj</a>, aby zapisać dane
       </Addnotation>
       <List className="main__list">
-        <ListElement type="main" counter={counters[0]}>
+        <ListElement
+          type="main"
+          counter={counters[0]}
+          isActive={type === 'notes' ? true : null}
+        >
           <button onClick={() => handleClick('second', 'notes')} type="button">
             Notatki
           </button>
         </ListElement>
-        <ListElement type="main" counter={counters[1]}>
+        <ListElement
+          type="main"
+          counter={counters[1]}
+          isActive={type === 'lists' ? true : null}
+        >
           <button onClick={() => handleClick('second', 'lists')} type="button">
             Listy
           </button>
@@ -64,11 +72,13 @@ MainTile.displayName = 'MainTile';
 MainTile.propTypes = {
   handleClick: propTypes.func.isRequired,
   counters: propTypes.shape(propTypes.number),
+  type: propTypes.string,
   // handleReveal: propTypes.func.isRequired,
 };
 
 MainTile.defaultProps = {
   counters: [0, 0],
+  type: null,
 };
 
 export default MainTile;

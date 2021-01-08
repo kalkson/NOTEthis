@@ -103,6 +103,8 @@ const TilesContainer = () => {
   return (
     <StyledTilesContainer>
       <MainTile
+        isActive={isSecondActive}
+        type={activeType}
         handleClick={handleClick}
         counters={[data.notes.active.length, data.lists.active.length]}
       />
