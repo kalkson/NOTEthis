@@ -5,6 +5,8 @@ import { ReactComponent as AddSVG } from 'assets/vector/add-task-icon.svg';
 import { ReactComponent as ArrowRightSVG } from '../../../assets/vector/arrow-right-icon.svg';
 import { ReactComponent as CheckedSVG } from '../../../assets/vector/checked-icon.svg';
 import { ReactComponent as UncheckedSVG } from '../../../assets/vector/unchecked-icon.svg';
+import { ReactComponent as PenSVG } from '../../../assets/vector/pen-icon.svg';
+import { ReactComponent as DeleteSVG } from '../../../assets/vector/delete-icon.svg';
 
 const StyledListElement = styled.li`
   cursor: pointer;
@@ -109,6 +111,33 @@ const StyledListElement = styled.li`
     fill: ${({ theme }) => theme.colors.primary};
     margin-left: 2px;
   }
+
+  .pen-icon,
+  .delete-icon {
+    height: 12px;
+    width: 12px;
+    margin-left: 4px;
+    /* transform: translateY(0px); */
+    cursor: pointer;
+    visibility: hidden;
+
+    transition: transform 200ms ease-in-out;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    & path {
+      fill: ${({ theme }) => theme.colors.primary};
+    }
+  }
+
+  &:hover {
+    .pen-icon,
+    .delete-icon {
+      visibility: visible;
+    }
+  }
 `;
 
 const ListElement = ({ children, className, type, counter, isActive }) => {
@@ -151,6 +180,8 @@ const ListElement = ({ children, className, type, counter, isActive }) => {
         <StyledListElement type="uncompleted-task" className={className}>
           <UncheckedSVG className="unchecked-icon" />
           {children}
+          <PenSVG className="pen-icon" />
+          <DeleteSVG className="delete-icon" />
         </StyledListElement>
       );
     }
