@@ -29,3 +29,17 @@ export const deleteTodo = title => {
     title,
   };
 };
+
+export const addTodo = title => {
+  return {
+    type: 'ADD_TODO',
+    title,
+  };
+};
+
+export const addNote = title => {
+  return {
+    type: 'ADD_NOTE',
+    title,
+  };
+};

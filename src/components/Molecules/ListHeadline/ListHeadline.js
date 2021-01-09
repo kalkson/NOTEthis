@@ -2,12 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ListInput from 'components/Atoms/ListInput/ListInput';
-import {
-  modifyNote,
-  modifyTodo,
-  deleteNote,
-  deleteTodo,
-} from 'components/store/Actions/actions';
+import { modifyNote, modifyTodo, deleteNote, deleteTodo } from 'components/store/Actions/actions';
 import StyledListHeadline from './ListHeadline.styled';
 import { ReactComponent as PenSVG } from '../../../assets/vector/pen-icon.svg';
 import { ReactComponent as DeleteSVG } from '../../../assets/vector/delete-icon.svg';
@@ -46,6 +41,7 @@ const ListHeadline = ({
 
   const handleSubmit = (e, value) => {
     e.preventDefault();
+    if (value === '') return;
     setHeadlineInputValue('');
     setTextContent(value);
     if (type === 'note') modifyNoteTitle(value, previousValue);
@@ -54,22 +50,12 @@ const ListHeadline = ({
   };
 
   if (headlineInputValue.length !== 0)
-    return (
-      <ListInput
-        value={headlineInputValue}
-        handleSubmit={handleSubmit}
-        type="headline"
-      />
-    );
+    return <ListInput value={headlineInputValue} handleSubmit={handleSubmit} type="headline" />;
 
   return (
     <StyledListHeadline className={className} ref={headline}>
       {textContent || children}
-      <PenSVG
-        className="pen-icon"
-        role="button"
-        onClick={() => handlePenClick()}
-      />
+      <PenSVG className="pen-icon" role="button" onClick={() => handlePenClick()} />
       {type === 'todo' && (
         <DeleteSVG
           className="delete-icon"
@@ -93,10 +79,7 @@ const ListHeadline = ({
 };
 
 ListHeadline.propTypes = {
-  children: propTypes.oneOfType([
-    propTypes.shape(propTypes.node),
-    propTypes.node,
-  ]).isRequired,
+  children: propTypes.oneOfType([propTypes.shape(propTypes.node), propTypes.node]).isRequired,
   className: propTypes.string,
   modifyNoteTitle: propTypes.func.isRequired,
   modifyTodoTitle: propTypes.func.isRequired,
@@ -112,15 +95,11 @@ ListHeadline.defaultProps = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    modifyNoteTitle: (title, previousValue) =>
-      dispatch(modifyNote(title, previousValue)),
-    modifyTodoTitle: (title, previousValue) =>
-      dispatch(modifyTodo(title, previousValue)),
+    modifyNoteTitle: (title, previousValue) => dispatch(modifyNote(title, previousValue)),
+    modifyTodoTitle: (title, previousValue) => dispatch(modifyTodo(title, previousValue)),
 
-    deleteNoteElement: (title, previousValue) =>
-      dispatch(deleteNote(title, previousValue)),
-    deleteTodoElement: (title, previousValue) =>
-      dispatch(deleteTodo(title, previousValue)),
+    deleteNoteElement: (title, previousValue) => dispatch(deleteNote(title, previousValue)),
+    deleteTodoElement: (title, previousValue) => dispatch(deleteTodo(title, previousValue)),
   };
 };
 

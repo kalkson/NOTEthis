@@ -8,8 +8,7 @@ const initState = {
       },
       {
         title: 'Mama powiedziała',
-        content:
-          'Nie przejmuj się, bo sama przeyżywała i dobrze wie. Nie płaczę nie przeżywam to luz, plusowy luz',
+        content: 'Nie przejmuj się, bo sama przeyżywała i dobrze wie. Nie płaczę nie przeżywam to luz, plusowy luz',
       },
     ],
     archived: [
@@ -123,6 +122,39 @@ const rootReducer = (state = initState, action) => {
         lists: {
           ...state.lists,
           active: activeLists,
+        },
+      };
+    }
+
+    case 'ADD_TODO': {
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          active: [
+            {
+              title: action.title,
+              todos: [],
+              completed: [],
+            },
+            ...state.lists.active,
+          ],
+        },
+      };
+    }
+
+    case 'ADD_NOTE': {
+      return {
+        ...state,
+        notes: {
+          ...state.notes,
+          active: [
+            {
+              title: action.title,
+              content: '',
+            },
+            ...state.notes.active,
+          ],
         },
       };
     }

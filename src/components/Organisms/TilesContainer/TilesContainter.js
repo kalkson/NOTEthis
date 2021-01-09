@@ -41,12 +41,13 @@ const TilesContainer = ({ data }) => {
   const handleClick = (which, type) => {
     switch (which) {
       case 'second': {
-        setSecondActivity(true);
-        setActiveType(type);
+        if (type !== activeType) {
+          setSecondActivity(true);
+          setActiveType(type);
 
-        setThirdActivity(false);
-        handleReveal(secondRef);
-
+          setThirdActivity(false);
+          handleReveal(secondRef);
+        }
         break;
       }
       case 'third': {
