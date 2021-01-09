@@ -12,6 +12,7 @@ const SecondaryTile = forwardRef(
     { isActive, data, handleClick, type, activePosition, setActivePosition },
     ref
   ) => {
+    console.log(data);
     return (
       <StyledSecondaryTile className="second" isActive={isActive} ref={ref}>
         {type === 'lists' ? (
@@ -22,39 +23,41 @@ const SecondaryTile = forwardRef(
 
         <div className="second__list-container">
           <List className="second__active-list">
-            {data.active?.map(item => (
-              <ListElement
-                key={item.title}
-                type="active-item"
-                isActive={activePosition === item.title ? true : null}
-              >
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleClick('third', item);
-                    setActivePosition(item.title);
-                  }}
+            {data &&
+              data.active?.map(item => (
+                <ListElement
+                  key={item.title}
+                  type="active-item"
+                  isActive={activePosition === item.title ? true : null}
                 >
-                  {item.title}
-                </button>
-              </ListElement>
-            ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleClick('third', item);
+                      setActivePosition(item.title);
+                    }}
+                  >
+                    {item.title}
+                  </button>
+                </ListElement>
+              ))}
           </List>
           <List className="second__archived-list">
-            {data.archived?.map(item => (
-              <ListElement
-                key={item.title}
-                type="completed-task"
-                className="second__archived-list__checkedElement"
-              >
-                <button
-                  type="button"
-                  onClick={() => handleClick('third', item)}
+            {data &&
+              data.archived?.map(item => (
+                <ListElement
+                  key={item.title}
+                  type="completed-task"
+                  className="second__archived-list__checkedElement"
                 >
-                  {item.title}
-                </button>
-              </ListElement>
-            ))}
+                  <button
+                    type="button"
+                    onClick={() => handleClick('third', item)}
+                  >
+                    {item.title}
+                  </button>
+                </ListElement>
+              ))}
           </List>
         </div>
         <Addnotation className="second__notice">

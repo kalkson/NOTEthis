@@ -42,11 +42,31 @@ const initState = {
 };
 
 const rootReducer = (state = initState, action) => {
-  console.log(state);
   switch (action.type) {
     case 'MODIFY_NOTE': {
-      return state;
+      const activeNotes = state.notes.active.map(note => {
+        if (note.title === action.previousTitle) {
+          console.log(action.previousTitle, note.title);
+          const { title } = action;
+
+          return {
+            ...note,
+            title,
+          };
+        }
+
+        return note;
+      });
+
+      return {
+        ...state,
+        notes: {
+          ...state.notes,
+          active: activeNotes,
+        },
+      };
     }
+
     default: {
       return state;
     }

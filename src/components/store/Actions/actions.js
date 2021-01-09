@@ -1,7 +1,9 @@
-export const modifyNote = title => {
+export const modifyNote = (title, previousTitle) => {
+  console.log(previousTitle);
   return {
     type: 'MODIFY_NOTE',
     title,
+    previousTitle,
   };
 };
 

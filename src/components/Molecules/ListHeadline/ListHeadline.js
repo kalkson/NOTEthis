@@ -10,18 +10,20 @@ import { ReactComponent as DeleteSVG } from '../../../assets/vector/delete-icon.
 const ListHeadline = ({ children, className, modify }) => {
   const headline = useRef(null);
   const [headlineValue, setHeadlineValue] = useState('');
-  const [textContent, setTextContent] = useState(null);
+  // const [textContent, setTextContent] = useState(null);
+  const [previousValue, setPreviousValue] = useState(null);
 
   const handlePenClick = () => {
     setHeadlineValue(headline.current.textContent);
+    setPreviousValue(headline.current.textContent);
     // headlineInput.current?.value = headlineValue;
   };
 
   const handleSubmit = (e, value) => {
     e.preventDefault();
     setHeadlineValue('');
-    setTextContent(value);
-    modify(value);
+    // setTextContent(value);
+    modify(value, previousValue);
     // headline.textContent = value;
   };
 
@@ -36,7 +38,7 @@ const ListHeadline = ({ children, className, modify }) => {
 
   return (
     <StyledListHeadline className={className} ref={headline}>
-      {textContent || children}
+      {children}
       <PenSVG
         className="pen-icon"
         role="button"
@@ -62,7 +64,8 @@ ListHeadline.defaultProps = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    modify: title => dispatch(modifyNote(title)),
+    modify: (title, previousValue) =>
+      dispatch(modifyNote(title, previousValue)),
   };
 };
 
