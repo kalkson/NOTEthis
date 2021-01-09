@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ListInput from 'components/Atoms/ListInput/ListInput';
@@ -10,19 +10,23 @@ import { ReactComponent as DeleteSVG } from '../../../assets/vector/delete-icon.
 const ListHeadline = ({ children, className, modify }) => {
   const headline = useRef(null);
   const [headlineValue, setHeadlineValue] = useState('');
-  // const [textContent, setTextContent] = useState(null);
+  const [textContent, setTextContent] = useState(null);
   const [previousValue, setPreviousValue] = useState(null);
+
+  useEffect(() => {
+    setTextContent(null);
+  }, [children]);
 
   const handlePenClick = () => {
     setHeadlineValue(headline.current.textContent);
     setPreviousValue(headline.current.textContent);
-    // headlineInput.current?.value = headlineValue;
+    // headlineInput.current.value = headlineValue;
   };
 
   const handleSubmit = (e, value) => {
     e.preventDefault();
     setHeadlineValue('');
-    // setTextContent(value);
+    setTextContent(value);
     modify(value, previousValue);
     // headline.textContent = value;
   };
@@ -38,7 +42,7 @@ const ListHeadline = ({ children, className, modify }) => {
 
   return (
     <StyledListHeadline className={className} ref={headline}>
-      {children}
+      {textContent || children}
       <PenSVG
         className="pen-icon"
         role="button"

@@ -17,7 +17,6 @@ const TilesContainer = ({ data }) => {
   const [isThirdActive, setThirdActivity] = useState(false);
   const [activePosition, setActivePosition] = useState(null);
   const [activeType, setActiveType] = useState([]);
-  const [activeData, setActiveData] = useState([]);
   const [activeThirdData, setActiveThirdData] = useState([]);
 
   const handleReveal = tile => {
@@ -42,9 +41,7 @@ const TilesContainer = ({ data }) => {
   const handleClick = (which, type) => {
     switch (which) {
       case 'second': {
-        setActiveData([]);
         setSecondActivity(true);
-        setActiveData(data[type]);
         setActiveType(type);
 
         setThirdActivity(false);
@@ -76,7 +73,7 @@ const TilesContainer = ({ data }) => {
       <SecondaryTile
         isActive={isSecondActive}
         handleClick={handleClick}
-        data={activeData}
+        data={data[activeType]}
         type={activeType}
         ref={secondRef}
         activePosition={activePosition}
