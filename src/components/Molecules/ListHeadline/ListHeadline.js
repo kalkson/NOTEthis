@@ -24,7 +24,13 @@ const ListHeadline = ({ children, className }) => {
   };
 
   if (headlineValue.length !== 0)
-    return <ListInput value={headlineValue} handleSubmit={handleSubmit} />;
+    return (
+      <ListInput
+        value={headlineValue}
+        handleSubmit={handleSubmit}
+        type="headline"
+      />
+    );
 
   return (
     <StyledListHeadline className={className} ref={headline}>
