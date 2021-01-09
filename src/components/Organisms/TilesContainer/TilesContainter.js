@@ -84,6 +84,7 @@ const TilesContainer = ({ data }) => {
         data={activeThirdData}
         type={activeType}
         ref={thirdRef}
+        setThirdActivity={setThirdActivity}
       />
     </StyledTilesContainer>
   );

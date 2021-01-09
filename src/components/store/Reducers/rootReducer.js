@@ -67,6 +67,66 @@ const rootReducer = (state = initState, action) => {
       };
     }
 
+    case 'MODIFY_TODO': {
+      const activeLists = state.lists.active.map(list => {
+        if (list.title === action.previousTitle) {
+          console.log(action.previousTitle, list.title);
+          const { title } = action;
+
+          return {
+            ...list,
+            title,
+          };
+        }
+
+        return list;
+      });
+
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          active: activeLists,
+        },
+      };
+    }
+
+    case 'DELETE_NOTE': {
+      const activeNotes = state.notes.active.filter(note => {
+        if (note.title !== action.title) {
+          return note;
+        }
+
+        return null;
+      });
+
+      return {
+        ...state,
+        notes: {
+          ...state.notes,
+          active: activeNotes,
+        },
+      };
+    }
+
+    case 'DELETE_TODO': {
+      const activeLists = state.lists.active.filter(list => {
+        if (list.title !== action.title) {
+          return list;
+        }
+
+        return null;
+      });
+
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          active: activeLists,
+        },
+      };
+    }
+
     default: {
       return state;
     }
