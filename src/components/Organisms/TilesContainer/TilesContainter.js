@@ -1,11 +1,15 @@
 import React, { useState, useRef } from 'react';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import gsap from 'gsap';
 import MainTile from '../Tile/MainTile/MainTile';
 import SecondaryTile from '../Tile/SecondaryTile/SecondaryTile';
 import ThirdTile from '../Tile/ThirdTile/ThirdTile';
 import StyledTilesContainer from './TilesContainer.styled';
 
-const TilesContainer = () => {
+const TilesContainer = ({ data }) => {
+  console.log(data);
+
   const secondRef = useRef(null);
   const thirdRef = useRef(null);
 
@@ -15,44 +19,6 @@ const TilesContainer = () => {
   const [activeType, setActiveType] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [activeThirdData, setActiveThirdData] = useState([]);
-
-  const data = {
-    notes: {
-      active: [
-        {
-          title: 'Ile lat ma Damian?',
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio iusto placeat dignissimos consectetur vitae magnam corporis similique quam, temporibus distinctio?',
-        },
-      ],
-      archived: [
-        {
-          title: 'Zjadłem dziś bananów 100',
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. oris similique quam, temporibus distinctio?',
-        },
-      ],
-    },
-    lists: {
-      active: [
-        {
-          title: 'zakupy',
-          todos: ['jajka', 'ocet', 'mleko', 'mąka'],
-          completed: ['cukier', 'woda', 'bułki'],
-        },
-        {
-          title: 'do zrobienia na dziś',
-          todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-        },
-      ],
-      archived: [
-        {
-          title: 'do zrobienia na dziś',
-          todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-        },
-      ],
-    },
-  };
 
   const handleReveal = tile => {
     console.log(tile);
@@ -128,4 +94,14 @@ const TilesContainer = () => {
   );
 };
 
-export default TilesContainer;
+TilesContainer.propTypes = {
+  data: propTypes.shape(propTypes.shape).isRequired,
+};
+
+const mapStateToProps = state => {
+  return {
+    data: state.rootReducer,
+  };
+};
+
+export default connect(mapStateToProps)(TilesContainer);
