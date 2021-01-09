@@ -6,6 +6,11 @@ const initState = {
         content:
           'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio iusto placeat dignissimos consectetur vitae magnam corporis similique quam, temporibus distinctio?',
       },
+      {
+        title: 'Mama powiedziała',
+        content:
+          'Nie przejmuj się, bo sama przeyżywała i dobrze wie. Nie płaczę nie przeżywam to luz, plusowy luz',
+      },
     ],
     archived: [
       {
@@ -37,9 +42,11 @@ const initState = {
 };
 
 const rootReducer = (state = initState, action) => {
+  console.log(state);
   switch (action.type) {
-    case 'FETCH_DATA':
-      return [state];
+    case 'MODIFY_NOTE': {
+      return state;
+    }
     default: {
       return state;
     }

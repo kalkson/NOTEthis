@@ -21,8 +21,6 @@ const TilesContainer = ({ data }) => {
   const [activeThirdData, setActiveThirdData] = useState([]);
 
   const handleReveal = tile => {
-    console.log(tile);
-
     if (tile?.current) {
       const elements = Array.from(tile.current.children);
 
@@ -73,7 +71,7 @@ const TilesContainer = ({ data }) => {
         isActive={isSecondActive}
         type={activeType}
         handleClick={handleClick}
-        counters={[data.notes.active.length, data.lists.active.length]}
+        counters={[data.notes?.active.length, data.lists?.active.length]}
       />
       <SecondaryTile
         isActive={isSecondActive}
@@ -100,7 +98,7 @@ TilesContainer.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    data: state.rootReducer,
+    data: state,
   };
 };
 
