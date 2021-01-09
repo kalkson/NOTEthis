@@ -1,6 +1,12 @@
 {
   "parser": "babel-eslint",
-  "extends": ["airbnb", "eslint:recommended", "plugin:react/recommended", "prettier/react", "prettier"],
+  "extends": [
+    "airbnb",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier/react",
+    "prettier"
+  ],
   "env": {
     "browser": true,
     "node": true,
@@ -22,6 +28,7 @@
   "rules": {
     "react/jsx-filename-extension": 0,
     "no-console": 0,
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "arrow-body-style": 0
   }
 }
