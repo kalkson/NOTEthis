@@ -58,3 +58,11 @@ export const addNote = title => {
     title,
   };
 };
+
+export const deleteTodos = (title, id) => {
+  return {
+    type: 'DELETE_TODOS',
+    title,
+    id,
+  };
+};

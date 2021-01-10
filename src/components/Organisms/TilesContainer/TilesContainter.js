@@ -56,6 +56,8 @@ const TilesContainer = ({ data }) => {
         setActiveThirdData(type);
         handleReveal(thirdRef);
 
+        console.log(type);
+
         break;
       }
       default:
@@ -82,10 +84,11 @@ const TilesContainer = ({ data }) => {
       />
       <ThirdTile
         isActive={isThirdActive}
-        data={activeThirdData}
+        storeData={data}
         type={activeType}
         ref={thirdRef}
         setThirdActivity={setThirdActivity}
+        thirdDataId={activeThirdData.id}
       />
     </StyledTilesContainer>
   );

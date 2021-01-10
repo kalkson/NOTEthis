@@ -25,13 +25,13 @@ const initState = {
   lists: {
     active: [
       {
-        id: 1,
+        id: 5,
         title: 'zakupy',
         todos: ['jajka', 'ocet', 'mleko', 'mąka'],
         completed: ['cukier', 'woda', 'bułki'],
       },
       {
-        id: 2,
+        id: 6,
         title: 'do zrobienia na dziś',
         todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
       },
@@ -140,6 +140,7 @@ const rootReducer = (state = initState, action) => {
               title: action.title,
               todos: [],
               completed: [],
+              id: Math.floor(Math.random() * (199999 - 19)) + 19,
             },
             ...state.lists.active,
           ],
@@ -192,6 +193,8 @@ const rootReducer = (state = initState, action) => {
       const { id } = action;
       const { todos } = state.lists.active.find(list => list.id === id);
 
+      if (todos.find(todo => todo === action.title)) return state;
+
       todos.push(action.title);
       const titleToAssign = state.lists.active.find(list => list.id === id).title;
 
@@ -200,6 +203,32 @@ const rootReducer = (state = initState, action) => {
           id,
           title: titleToAssign,
           todos,
+        },
+        ...[...state.lists.active].filter(todo => todo.id !== id),
+      ];
+
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          active,
+        },
+      };
+    }
+
+    case 'DELETE_TODOS': {
+      const { id } = action;
+      const { todos } = state.lists.active.find(list => list.id === id);
+
+      const titleToAssign = state.lists.active.find(list => list.id === id).title;
+
+      console.log(todos.filter(todo => action.title !== todo));
+
+      const active = [
+        {
+          id,
+          title: titleToAssign,
+          todos: todos.filter(todo => action.title !== todo),
         },
         ...[...state.lists.active].filter(todo => todo.id !== id),
       ];
