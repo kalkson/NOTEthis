@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
+import { modifyTodos } from 'components/store/Actions/actions';
 import { ReactComponent as AddSVG } from 'assets/vector/add-task-icon.svg';
 import { ReactComponent as ArrowRightSVG } from '../../../assets/vector/arrow-right-icon.svg';
 import { ReactComponent as CheckedSVG } from '../../../assets/vector/checked-icon.svg';
 import { ReactComponent as UncheckedSVG } from '../../../assets/vector/unchecked-icon.svg';
 import { ReactComponent as PenSVG } from '../../../assets/vector/pen-icon.svg';
 import { ReactComponent as DeleteSVG } from '../../../assets/vector/delete-icon.svg';
+import ListInput from '../ListInput/ListInput';
 
 const StyledListElement = styled.li`
   cursor: pointer;
   margin: 9px 0;
   position: relative;
   width: fit-content;
+  font-size: 1.9rem;
   /* display: flex; */
   /* align-items: center; */
 
@@ -23,8 +27,7 @@ const StyledListElement = styled.li`
     transition: font-size 0.05s ease-in-out;
 
     font-weight: ${({ isActive }) => (isActive ? 'bold' : null)};
-    font-size: ${({ isActive, type }) =>
-      isActive && type === 'main' ? '3rem' : '1.9rem'};
+    font-size: ${({ isActive, type }) => (isActive && type === 'main' ? '3rem' : '1.9rem')};
   }
 
   &:after {
@@ -140,28 +143,52 @@ const StyledListElement = styled.li`
   }
 `;
 
-const ListElement = ({ children, className, type, counter, isActive }) => {
-  console.log(isActive);
+const StyledSpan = styled.span`
+  display: flex;
+  align-items: center;
+
+  .unchecked-icon,
+  .add-button-icon {
+    margin-right: 6px;
+    width: 14px;
+    height: 14px;
+    transform: translateY(1px);
+    fill: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+const ListElement = ({ children, className, type, counter, isActive, modifyTodoElement, id }) => {
+  console.log(id);
+  const [elementValue, setElementValue] = useState('');
+  const [textContent, setTextContent] = useState(null);
+  const [previousValue, setPreviousValue] = useState(null);
+
+  const listElement = useRef(null);
+
+  const handlePenClick = () => {
+    setPreviousValue(listElement.current.textContent);
+    setElementValue(listElement.current.textContent);
+    console.log(elementValue);
+  };
+
+  const handleSubmit = (e, value) => {
+    e.preventDefault();
+    setElementValue('');
+    setTextContent(value);
+    modifyTodoElement(value, previousValue, id);
+  };
+
   switch (type) {
     case 'main': {
       return (
-        <StyledListElement
-          type="main"
-          counter={counter}
-          className={className}
-          isActive={isActive}
-        >
+        <StyledListElement type="main" counter={counter} className={className} isActive={isActive}>
           {children}
         </StyledListElement>
       );
     }
     case 'active-item': {
       return (
-        <StyledListElement
-          type="active-item"
-          className={className}
-          isActive={isActive}
-        >
+        <StyledListElement type="active-item" className={className} isActive={isActive}>
           <ArrowRightSVG className="arrow-right-icon" />
           {children}
         </StyledListElement>
@@ -176,39 +203,53 @@ const ListElement = ({ children, className, type, counter, isActive }) => {
       );
     }
     case 'uncompleted-task': {
+      if (elementValue.length !== 0) {
+        return (
+          <>
+            <StyledSpan>
+              <UncheckedSVG className="unchecked-icon" />
+              <ListInput type="list" handleSubmit={handleSubmit} value={elementValue} />
+            </StyledSpan>
+          </>
+        );
+      }
       return (
-        <StyledListElement type="uncompleted-task" className={className}>
+        <StyledListElement type="uncompleted-task" className={className} ref={listElement}>
           <UncheckedSVG className="unchecked-icon" />
-          {children}
-          <PenSVG className="pen-icon" />
+          {textContent || children}
+          <PenSVG className="pen-icon" onClick={() => handlePenClick()} />
           <DeleteSVG className="delete-icon" />
         </StyledListElement>
       );
     }
     case 'add-button': {
+      if (elementValue.length !== 0)
+        return (
+          <StyledSpan>
+            <AddSVG className="add-button-icon" />
+            <ListInput type="list" handleSubmit={handleSubmit} value={elementValue} />
+          </StyledSpan>
+        );
       return (
-        <StyledListElement type="add-button" className={className}>
+        <StyledListElement type="add-button" className={className} onClick={() => handlePenClick()} ref={listElement}>
           <AddSVG className="add-button-icon" />
           {children}
         </StyledListElement>
       );
     }
     default:
-      return (
-        <StyledListElement className={className}>{children}</StyledListElement>
-      );
+      return <StyledListElement className={className}>{children}</StyledListElement>;
   }
 };
 
 ListElement.propTypes = {
-  children: propTypes.oneOfType([
-    propTypes.arrayOf(propTypes.node),
-    propTypes.node,
-  ]).isRequired,
+  children: propTypes.oneOfType([propTypes.arrayOf(propTypes.node), propTypes.node]).isRequired,
   className: propTypes.string,
   type: propTypes.string,
   counter: propTypes.number,
   isActive: propTypes.bool,
+  id: propTypes.number,
+  modifyTodoElement: propTypes.func.isRequired,
 };
 
 ListElement.defaultProps = {
@@ -216,6 +257,13 @@ ListElement.defaultProps = {
   type: null,
   isActive: null,
   counter: 0,
+  id: null,
 };
 
-export default ListElement;
+const mapDispatchToProps = dispatch => {
+  return {
+    modifyTodoElement: (title, previousValue, id) => dispatch(modifyTodos(title, previousValue, id)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ListElement);

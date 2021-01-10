@@ -6,11 +6,13 @@ import ListHeadline from 'components/Molecules/ListHeadline/ListHeadline';
 import StyledThirdTile from './ThirdTile.styled';
 // import Tile from '../Tile';
 
-const ThirdTile = forwardRef(({ isActive, data, type }, ref) => {
+const ThirdTile = forwardRef(({ isActive, data, type, setThirdActivity }, ref) => {
   if (type === 'notes')
     return (
       <StyledThirdTile isActive={isActive} ref={ref}>
-        <ListHeadline className="third__headline">{data.title}</ListHeadline>
+        <ListHeadline className="third__headline" type="note" setThirdActivity={setThirdActivity}>
+          {data.title}
+        </ListHeadline>
         <p>{data.content}</p>
       </StyledThirdTile>
     );
@@ -18,15 +20,13 @@ const ThirdTile = forwardRef(({ isActive, data, type }, ref) => {
   if (type === 'lists')
     return (
       <StyledThirdTile isActive={isActive} ref={ref}>
-        <ListHeadline className="third__headline">{data.title}</ListHeadline>
+        <ListHeadline className="third__headline" type="todo" setThirdActivity={setThirdActivity}>
+          {data.title}
+        </ListHeadline>
         <div className="third__list-container">
           <List className="third__active-list">
             {data.todos?.map(item => (
-              <ListElement
-                key={item}
-                type="uncompleted-task"
-                className="uncompleted-task"
-              >
+              <ListElement key={item} type="uncompleted-task" className="uncompleted-task" id={data.id}>
                 <button type="button">{item}</button>
               </ListElement>
             ))}
@@ -53,10 +53,9 @@ ThirdTile.displayName = 'SecondaryTile';
 
 ThirdTile.propTypes = {
   isActive: propTypes.bool.isRequired,
-  data: propTypes.shape(
-    propTypes.oneOfType([propTypes.shape, propTypes.string])
-  ).isRequired,
+  data: propTypes.shape(propTypes.oneOfType([propTypes.shape, propTypes.string])).isRequired,
   type: propTypes.string.isRequired,
+  setThirdActivity: propTypes.func.isRequired,
 };
 
 // export default Tile(ThirdTile);
