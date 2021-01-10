@@ -1,5 +1,4 @@
 export const modifyNote = (title, previousTitle) => {
-  console.log(previousTitle);
   return {
     type: 'MODIFY_NOTE',
     title,
@@ -8,11 +7,19 @@ export const modifyNote = (title, previousTitle) => {
 };
 
 export const modifyTodo = (title, previousTitle) => {
-  console.log(previousTitle);
   return {
     type: 'MODIFY_TODO',
     title,
     previousTitle,
+  };
+};
+
+export const modifyTodos = (title, previousTitle, id) => {
+  return {
+    type: 'MODIFY_TODOS',
+    title,
+    previousTitle,
+    id,
   };
 };
 
