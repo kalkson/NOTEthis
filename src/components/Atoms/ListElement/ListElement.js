@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
-import { modifyTodos } from 'components/store/Actions/actions';
+import { modifyTodos, addTodos } from 'components/store/Actions/actions';
 import { ReactComponent as AddSVG } from 'assets/vector/add-task-icon.svg';
 import { ReactComponent as ArrowRightSVG } from '../../../assets/vector/arrow-right-icon.svg';
 import { ReactComponent as CheckedSVG } from '../../../assets/vector/checked-icon.svg';
@@ -157,7 +157,7 @@ const StyledSpan = styled.span`
   }
 `;
 
-const ListElement = ({ children, className, type, counter, isActive, modifyTodoElement, id }) => {
+const ListElement = ({ children, className, type, counter, isActive, modifyTodoElement, addTodoElement, id }) => {
   console.log(id);
   const [elementValue, setElementValue] = useState('');
   const [textContent, setTextContent] = useState(null);
@@ -175,7 +175,8 @@ const ListElement = ({ children, className, type, counter, isActive, modifyTodoE
     e.preventDefault();
     setElementValue('');
     setTextContent(value);
-    modifyTodoElement(value, previousValue, id);
+    if (type === 'uncompleted-task') modifyTodoElement(value, previousValue, id);
+    if (type === 'add-button') addTodoElement(value, id);
   };
 
   switch (type) {
@@ -250,6 +251,7 @@ ListElement.propTypes = {
   isActive: propTypes.bool,
   id: propTypes.number,
   modifyTodoElement: propTypes.func.isRequired,
+  addTodoElement: propTypes.func.isRequired,
 };
 
 ListElement.defaultProps = {
@@ -263,6 +265,7 @@ ListElement.defaultProps = {
 const mapDispatchToProps = dispatch => {
   return {
     modifyTodoElement: (title, previousValue, id) => dispatch(modifyTodos(title, previousValue, id)),
+    addTodoElement: (title, id) => dispatch(addTodos(title, id)),
   };
 };
 

@@ -51,7 +51,6 @@ const rootReducer = (state = initState, action) => {
     case 'MODIFY_NOTE': {
       const activeNotes = state.notes.active.map(note => {
         if (note.title === action.previousTitle) {
-          console.log(action.previousTitle, note.title);
           const { title } = action;
 
           return {
@@ -75,7 +74,6 @@ const rootReducer = (state = initState, action) => {
     case 'MODIFY_TODO': {
       const activeLists = state.lists.active.map(list => {
         if (list.title === action.previousTitle) {
-          console.log(action.previousTitle, list.title);
           const { title } = action;
 
           return {
@@ -92,31 +90,6 @@ const rootReducer = (state = initState, action) => {
         lists: {
           ...state.lists,
           active: activeLists,
-        },
-      };
-    }
-
-    case 'MODIFY_TODOS': {
-      const { id } = action;
-      const { todos } = state.lists.active.find(list => list.id === id);
-
-      const todos2 = todos.map(todo => (todo === action.previousTitle ? action.title : todo));
-      const titleToAssign = state.lists.active.find(list => list.id === id).title;
-
-      const active = [
-        {
-          id,
-          title: titleToAssign,
-          todos: todos2,
-        },
-        ...[...state.lists.active].filter(todo => todo.id !== id),
-      ];
-
-      return {
-        ...state,
-        lists: {
-          ...state.lists,
-          active,
         },
       };
     }
@@ -186,6 +159,56 @@ const rootReducer = (state = initState, action) => {
             },
             ...state.notes.active,
           ],
+        },
+      };
+    }
+
+    case 'MODIFY_TODOS': {
+      const { id } = action;
+      const { todos } = state.lists.active.find(list => list.id === id);
+
+      const todos2 = todos.map(todo => (todo === action.previousTitle ? action.title : todo));
+      const titleToAssign = state.lists.active.find(list => list.id === id).title;
+
+      const active = [
+        {
+          id,
+          title: titleToAssign,
+          todos: todos2,
+        },
+        ...[...state.lists.active].filter(todo => todo.id !== id),
+      ];
+
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          active,
+        },
+      };
+    }
+
+    case 'ADD_TODOS': {
+      const { id } = action;
+      const { todos } = state.lists.active.find(list => list.id === id);
+
+      todos.push(action.title);
+      const titleToAssign = state.lists.active.find(list => list.id === id).title;
+
+      const active = [
+        {
+          id,
+          title: titleToAssign,
+          todos,
+        },
+        ...[...state.lists.active].filter(todo => todo.id !== id),
+      ];
+
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          active,
         },
       };
     }

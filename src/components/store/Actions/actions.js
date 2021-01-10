@@ -44,6 +44,14 @@ export const addTodo = title => {
   };
 };
 
+export const addTodos = (title, id) => {
+  return {
+    type: 'ADD_TODOS',
+    title,
+    id,
+  };
+};
+
 export const addNote = title => {
   return {
     type: 'ADD_NOTE',

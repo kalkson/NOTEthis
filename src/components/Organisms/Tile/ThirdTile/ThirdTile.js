@@ -30,7 +30,7 @@ const ThirdTile = forwardRef(({ isActive, data, type, setThirdActivity }, ref) =
                 <button type="button">{item}</button>
               </ListElement>
             ))}
-            <ListElement className="third__add-button" type="add-button">
+            <ListElement className="third__add-button" type="add-button" id={data.id}>
               <button type="button">dodaj nowe zadanie</button>
             </ListElement>
           </List>
