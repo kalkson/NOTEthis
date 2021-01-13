@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import List from 'components/Molecules/List/List';
 import ListElement from 'components/Atoms/ListElement/ListElement';
 import ListHeadline from 'components/Molecules/ListHeadline/ListHeadline';
+import ListParagraph from 'components/Molecules/ListParagraph/ListParagraph';
 import StyledThirdTile from './ThirdTile.styled';
 // import Tile from '../Tile';
 
@@ -23,7 +24,11 @@ const ThirdTile = forwardRef(({ isActive, type, setThirdActivity, storeData, thi
           <ListHeadline className="third__headline" type="note" setThirdActivity={setThirdActivity}>
             {data && data.title}
           </ListHeadline>
-          <p>{data && data.content}</p>
+          {data && (
+            <ListParagraph id={data.id} title={data.title}>
+              {data.content}
+            </ListParagraph>
+          )}
         </>
       )}
 

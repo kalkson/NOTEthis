@@ -82,3 +82,12 @@ export const returnTodos = (title, id) => {
     id,
   };
 };
+
+export const addNotes = (content, title, id) => {
+  return {
+    type: 'ADD_NOTES',
+    content,
+    id,
+    title,
+  };
+};

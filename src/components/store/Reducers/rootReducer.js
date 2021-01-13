@@ -1,13 +1,9 @@
 const throwToCompleted = (state, id) => {
   const newCompletedOne = state.lists.active.find(list => list.id === id);
   if (!newCompletedOne.todos.length) {
-    console.log(state);
-
     const { archived } = state.lists;
     archived.unshift(newCompletedOne);
     const newActive = state.lists.active.filter(list => list.id !== id);
-
-    console.log(newActive);
 
     return {
       ...state,
@@ -103,16 +99,6 @@ const rootReducer = (state = initState, action) => {
         return list;
       });
 
-      const abc = {
-        ...state,
-        lists: {
-          ...state.lists,
-          active: activeLists,
-        },
-      };
-
-      console.log(abc);
-
       return {
         ...state,
         lists: {
@@ -201,6 +187,30 @@ const rootReducer = (state = initState, action) => {
             },
             ...state.notes.active,
           ],
+        },
+      };
+    }
+
+    case 'ADD_NOTES': {
+      const tmpNote = state.notes.active.find(note => note.id === action.id);
+      if (action.content.toLowerCase() === tmpNote.content.toLowerCase()) return state;
+
+      const active = state.notes.active.map(note => {
+        if (note.id === action.id) {
+          return {
+            id: action.id,
+            title: action.title,
+            content: action.content,
+          };
+        }
+
+        return note;
+      });
+
+      return {
+        ...state,
+        notes: {
+          active,
         },
       };
     }
@@ -317,7 +327,6 @@ const rootReducer = (state = initState, action) => {
     }
 
     case 'RETURN_TODOS': {
-      console.log(state);
       const activeListTmp =
         state.lists.active.find(list => list.id === action.id) ||
         state.lists.archived.find(list => list.id === action.id);
@@ -337,9 +346,6 @@ const rootReducer = (state = initState, action) => {
         },
         ...[...state.lists.active].filter(todo => todo.id !== id),
       ];
-
-      console.log(state.lists.archived.filter(list => list.title !== title));
-      console.log(activeListTmp.todos);
 
       return {
         ...state,
