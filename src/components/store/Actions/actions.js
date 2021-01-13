@@ -66,3 +66,19 @@ export const deleteTodos = (title, id) => {
     id,
   };
 };
+
+export const throwTodos = (title, id) => {
+  return {
+    type: 'THROW_TODOS',
+    title,
+    id,
+  };
+};
+
+export const returnTodos = (title, id) => {
+  return {
+    type: 'RETURN_TODOS',
+    title,
+    id,
+  };
+};

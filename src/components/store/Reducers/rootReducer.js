@@ -34,6 +34,7 @@ const initState = {
         id: 6,
         title: 'do zrobienia na dziś',
         todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
+        completed: [],
       },
     ],
     archived: [
@@ -84,6 +85,16 @@ const rootReducer = (state = initState, action) => {
 
         return list;
       });
+
+      const abc = {
+        ...state,
+        lists: {
+          ...state.lists,
+          active: activeLists,
+        },
+      };
+
+      console.log(abc);
 
       return {
         ...state,
@@ -169,12 +180,12 @@ const rootReducer = (state = initState, action) => {
       const { todos } = state.lists.active.find(list => list.id === id);
 
       const todos2 = todos.map(todo => (todo === action.previousTitle ? action.title : todo));
-      const titleToAssign = state.lists.active.find(list => list.id === id).title;
+      const actived = state.lists.active.find(list => list.id === id);
+      // const completed = state.lists.active.find(list => list.id === id).completed;
 
       const active = [
         {
-          id,
-          title: titleToAssign,
+          ...actived,
           todos: todos2,
         },
         ...[...state.lists.active].filter(todo => todo.id !== id),
@@ -196,12 +207,11 @@ const rootReducer = (state = initState, action) => {
       if (todos.find(todo => todo === action.title)) return state;
 
       todos.push(action.title);
-      const titleToAssign = state.lists.active.find(list => list.id === id).title;
+      const actived = state.lists.active.find(list => list.id === id);
 
       const active = [
         {
-          id,
-          title: titleToAssign,
+          ...actived,
           todos,
         },
         ...[...state.lists.active].filter(todo => todo.id !== id),
@@ -219,16 +229,14 @@ const rootReducer = (state = initState, action) => {
     case 'DELETE_TODOS': {
       const { id } = action;
       const { todos } = state.lists.active.find(list => list.id === id);
-
-      const titleToAssign = state.lists.active.find(list => list.id === id).title;
-
-      console.log(todos.filter(todo => action.title !== todo));
+      const { title, completed } = state.lists.active.find(list => list.id === id);
 
       const active = [
         {
           id,
-          title: titleToAssign,
+          title,
           todos: todos.filter(todo => action.title !== todo),
+          completed,
         },
         ...[...state.lists.active].filter(todo => todo.id !== id),
       ];
@@ -240,6 +248,60 @@ const rootReducer = (state = initState, action) => {
           active,
         },
       };
+    }
+
+    case 'THROW_TODOS': {
+      const activeListTmp = state.lists.active.find(list => list.id === action.id);
+      const todos = activeListTmp.todos.filter(todo => todo !== action.title);
+      const { completed } = activeListTmp;
+      completed.unshift(action.title);
+      const { title, id } = state.lists.active.find(list => list.id === action.id);
+
+      const active = [
+        {
+          id,
+          title,
+          todos,
+          completed,
+        },
+        ...[...state.lists.active].filter(todo => todo.id !== id),
+      ];
+
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          active,
+        },
+      };
+    }
+
+    case 'RETURN_TODOS': {
+      console.log(action);
+      const activeListTmp = state.lists.active.find(list => list.id === action.id);
+      const completed = activeListTmp.completed.filter(todo => todo !== action.title);
+      const { todos } = activeListTmp;
+      todos.unshift(action.title);
+      const { title, id } = state.lists.active.find(list => list.id === action.id);
+
+      const active = [
+        {
+          id,
+          title,
+          todos,
+          completed,
+        },
+        ...[...state.lists.active].filter(todo => todo.id !== id),
+      ];
+
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          active,
+        },
+      };
+      // return state;
     }
 
     default: {

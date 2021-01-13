@@ -43,7 +43,7 @@ const ThirdTile = forwardRef(({ isActive, type, setThirdActivity, storeData, thi
 
             <List className="third__archived-list">
               {data.completed?.map(item => (
-                <ListElement key={item} type="completed-task">
+                <ListElement key={item} type="completed-task" id={data.id} isCompletedTodo>
                   <button type="button">{item}</button>
                 </ListElement>
               ))}

@@ -55,7 +55,12 @@ const SecondaryTile = forwardRef(
           <List className="second__archived-list">
             {data &&
               data.archived?.map(item => (
-                <ListElement key={item.title} type="completed-task" className="second__archived-list__checkedElement">
+                <ListElement
+                  key={item.title}
+                  id={item.id}
+                  type="completed-task"
+                  className="second__archived-list__checkedElement"
+                >
                   <button type="button" onClick={() => handleClick('third', item)}>
                     {item.title}
                   </button>
