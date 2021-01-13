@@ -7,9 +7,12 @@ import StyledThirdTile from './ThirdTile.styled';
 // import Tile from '../Tile';
 
 const ThirdTile = forwardRef(({ isActive, type, setThirdActivity, storeData, thirdDataId }, ref) => {
+  console.log(storeData);
   const [data, setData] = useState([]);
   useEffect(() => {
-    if (type === 'lists') setData(storeData.lists.active?.find(list => list.id === thirdDataId));
+    if (type === 'lists' && storeData.lists.active?.find(list => list.id === thirdDataId))
+      setData(storeData.lists.active?.find(list => list.id === thirdDataId));
+    else if (type === 'lists') setData(storeData.lists.archived?.find(list => list.id === thirdDataId));
     if (type === 'notes') setData(storeData.notes.active?.find(list => list.id === thirdDataId));
   }, [storeData, thirdDataId]);
 

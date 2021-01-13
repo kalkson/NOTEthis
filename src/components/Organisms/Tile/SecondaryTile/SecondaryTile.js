@@ -54,18 +54,21 @@ const SecondaryTile = forwardRef(
           </List>
           <List className="second__archived-list">
             {data &&
-              data.archived?.map(item => (
-                <ListElement
-                  key={item.title}
-                  id={item.id}
-                  type="completed-task"
-                  className="second__archived-list__checkedElement"
-                >
-                  <button type="button" onClick={() => handleClick('third', item)}>
-                    {item.title}
-                  </button>
-                </ListElement>
-              ))}
+              data.archived?.map(item => {
+                console.log(item);
+                return (
+                  <ListElement
+                    key={item.title}
+                    id={item.id}
+                    type="completed-task"
+                    className="second__archived-list__checkedElement"
+                  >
+                    <button type="button" onClick={() => handleClick('third', item)}>
+                      {item.title}
+                    </button>
+                  </ListElement>
+                );
+              })}
           </List>
         </div>
         <Addnotation className="second__notice">Usuń ukończone listy klikając na nie</Addnotation>

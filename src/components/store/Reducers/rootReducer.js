@@ -54,8 +54,9 @@ const initState = {
     archived: [
       {
         id: 3,
-        title: 'do zrobienia na dziś',
-        todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
+        title: 'jutro',
+        todos: [],
+        completed: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
       },
     ],
   },
@@ -140,19 +141,28 @@ const rootReducer = (state = initState, action) => {
     }
 
     case 'DELETE_TODO': {
-      const activeLists = state.lists.active.filter(list => {
-        if (list.title !== action.title) {
-          return list;
-        }
+      const lists = state.lists.active.find(list => list.title === action.title)
+        ? state.lists.active.filter(list => {
+            if (list.title !== action.title) {
+              return list;
+            }
 
-        return null;
-      });
+            return null;
+          })
+        : state.lists.archived.filter(list => {
+            if (list.title !== action.title) {
+              return list;
+            }
+
+            return null;
+          });
 
       return {
         ...state,
         lists: {
           ...state.lists,
-          active: activeLists,
+          active: state.lists.active.find(list => list.title === action.title) ? lists : state.lists.active,
+          archived: state.lists.archived.find(list => list.title === action.title) ? lists : state.lists.archived,
         },
       };
     }
@@ -179,7 +189,6 @@ const rootReducer = (state = initState, action) => {
 
     case 'ADD_NOTE': {
       if (state.notes.active.find(note => note.title.toLowerCase() === action.title.toLowerCase())) return state;
-      if (state.notes.archived.find(note => note.title.toLowerCase() === action.title.toLowerCase())) return state;
 
       return {
         ...state,
@@ -308,11 +317,16 @@ const rootReducer = (state = initState, action) => {
     }
 
     case 'RETURN_TODOS': {
-      const activeListTmp = state.lists.active.find(list => list.id === action.id);
+      console.log(state);
+      const activeListTmp =
+        state.lists.active.find(list => list.id === action.id) ||
+        state.lists.archived.find(list => list.id === action.id);
       const completed = activeListTmp.completed.filter(todo => todo !== action.title);
       const { todos } = activeListTmp;
       todos.unshift(action.title);
-      const { title, id } = state.lists.active.find(list => list.id === action.id);
+      const { title, id } =
+        state.lists.active.find(list => list.id === action.id) ||
+        state.lists.archived.find(list => list.id === action.id);
 
       const active = [
         {
@@ -324,11 +338,18 @@ const rootReducer = (state = initState, action) => {
         ...[...state.lists.active].filter(todo => todo.id !== id),
       ];
 
+      console.log(state.lists.archived.filter(list => list.title !== title));
+      console.log(activeListTmp.todos);
+
       return {
         ...state,
         lists: {
           ...state.lists,
           active,
+          archived:
+            activeListTmp.todos.length === 0
+              ? state.lists.archived
+              : state.lists.archived.filter(list => list.title !== title),
         },
       };
       // return state;

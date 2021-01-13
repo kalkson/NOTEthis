@@ -51,13 +51,11 @@ const TilesContainer = ({ data }) => {
         break;
       }
       case 'third': {
+        console.log(which, type);
         setActiveThirdData([]);
         setThirdActivity(true);
         setActiveThirdData(type);
         handleReveal(thirdRef);
-
-        console.log(type);
-
         break;
       }
       default:
