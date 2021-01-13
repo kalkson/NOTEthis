@@ -170,7 +170,7 @@ const ListElement = ({
   id,
 }) => {
   const [elementValue, setElementValue] = useState('');
-  const [textContent, setTextContent] = useState(null);
+  // const [textContent, setTextContent] = useState(null);
   const [previousValue, setPreviousValue] = useState(null);
   const [listId, setListId] = useState(null);
 
@@ -200,12 +200,8 @@ const ListElement = ({
     e.preventDefault();
     setElementValue('');
     if (value === null || value === '') {
-      setTextContent(previousValue);
-
       if (type === 'uncompleted-task') modifyTodoElement(previousValue, previousValue, listId);
     } else {
-      setTextContent(value);
-
       if (type === 'uncompleted-task') modifyTodoElement(value, previousValue, listId);
       if (type === 'add-button') addTodoElement(value, listId);
     }
@@ -264,7 +260,7 @@ const ListElement = ({
             onClick={isCompletedTodo ? () => handleTodoItemClick() : null}
           />
           <button type="button" onClick={e => handleTodoItemClick(e)}>
-            {textContent || children}
+            {children}
           </button>
           <PenSVG className="pen-icon" onClick={() => handlePenClick()} />
           <DeleteSVG className="delete-icon" onClick={() => handleDeleteClick()} />

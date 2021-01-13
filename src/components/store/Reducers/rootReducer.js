@@ -1,3 +1,25 @@
+const throwToCompleted = (state, id) => {
+  const newCompletedOne = state.lists.active.find(list => list.id === id);
+  if (!newCompletedOne.todos.length) {
+    console.log(state);
+
+    const { archived } = state.lists;
+    archived.unshift(newCompletedOne);
+    const newActive = state.lists.active.filter(list => list.id !== id);
+
+    console.log(newActive);
+
+    return {
+      ...state,
+      lists: {
+        active: newActive,
+        archived,
+      },
+    };
+  }
+  return state;
+};
+
 const initState = {
   notes: {
     active: [
@@ -11,14 +33,6 @@ const initState = {
         id: 2,
         title: 'Mama powiedziała',
         content: 'Nie przejmuj się, bo sama przeyżywała i dobrze wie. Nie płaczę nie przeżywam to luz, plusowy luz',
-      },
-    ],
-    archived: [
-      {
-        id: 3,
-        title: 'Zjadłem dziś bananów 100',
-        content:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. oris similique quam, temporibus distinctio?',
       },
     ],
   },
@@ -73,6 +87,8 @@ const rootReducer = (state = initState, action) => {
     }
 
     case 'MODIFY_TODO': {
+      if (state.lists.active.find(todo => todo.title === action.title)) return state;
+
       const activeLists = state.lists.active.map(list => {
         if (list.title === action.previousTitle) {
           const { title } = action;
@@ -142,6 +158,8 @@ const rootReducer = (state = initState, action) => {
     }
 
     case 'ADD_TODO': {
+      if (state.lists.active.find(todo => todo.title === action.title)) return state;
+
       return {
         ...state,
         lists: {
@@ -160,6 +178,9 @@ const rootReducer = (state = initState, action) => {
     }
 
     case 'ADD_NOTE': {
+      if (state.notes.active.find(note => note.title.toLowerCase() === action.title.toLowerCase())) return state;
+      if (state.notes.archived.find(note => note.title.toLowerCase() === action.title.toLowerCase())) return state;
+
       return {
         ...state,
         notes: {
@@ -178,6 +199,8 @@ const rootReducer = (state = initState, action) => {
     case 'MODIFY_TODOS': {
       const { id } = action;
       const { todos } = state.lists.active.find(list => list.id === id);
+
+      if (todos.find(todo => todo.toLowerCase() === action.title.toLowerCase())) return state;
 
       const todos2 = todos.map(todo => (todo === action.previousTitle ? action.title : todo));
       const actived = state.lists.active.find(list => list.id === id);
@@ -204,7 +227,7 @@ const rootReducer = (state = initState, action) => {
       const { id } = action;
       const { todos } = state.lists.active.find(list => list.id === id);
 
-      if (todos.find(todo => todo === action.title)) return state;
+      if (todos.find(todo => todo.toLowerCase() === action.title.toLowerCase())) return state;
 
       todos.push(action.title);
       const actived = state.lists.active.find(list => list.id === id);
@@ -241,13 +264,15 @@ const rootReducer = (state = initState, action) => {
         ...[...state.lists.active].filter(todo => todo.id !== id),
       ];
 
-      return {
+      const tmpState = {
         ...state,
         lists: {
           ...state.lists,
           active,
         },
       };
+
+      return throwToCompleted(tmpState, id);
     }
 
     case 'THROW_TODOS': {
@@ -267,17 +292,22 @@ const rootReducer = (state = initState, action) => {
         ...[...state.lists.active].filter(todo => todo.id !== id),
       ];
 
-      return {
+      // const
+
+      // return () => throwToCompleted();
+
+      const tmpState = {
         ...state,
         lists: {
           ...state.lists,
           active,
         },
       };
+
+      return throwToCompleted(tmpState, id);
     }
 
     case 'RETURN_TODOS': {
-      console.log(action);
       const activeListTmp = state.lists.active.find(list => list.id === action.id);
       const completed = activeListTmp.completed.filter(todo => todo !== action.title);
       const { todos } = activeListTmp;

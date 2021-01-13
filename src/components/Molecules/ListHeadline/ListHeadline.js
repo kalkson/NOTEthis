@@ -20,11 +20,9 @@ const ListHeadline = ({
   const headline = useRef(null);
   const [headlineInputValue, setHeadlineInputValue] = useState('');
   const [headlineValue, setHeadlineValue] = useState('');
-  const [textContent, setTextContent] = useState(null);
   const [previousValue, setPreviousValue] = useState(null);
 
   useEffect(() => {
-    setTextContent(null);
     setHeadlineInputValue('');
     setHeadlineValue(headline.current?.textContent);
   }, [children]);
@@ -36,14 +34,12 @@ const ListHeadline = ({
   const handlePenClick = () => {
     setHeadlineInputValue(headline.current.textContent);
     setPreviousValue(headline.current.textContent);
-    // headlineInput.current.value = HeadlineInputValue;
   };
 
   const handleSubmit = (e, value) => {
     e.preventDefault();
     if (value === '') return;
     setHeadlineInputValue('');
-    setTextContent(value);
     if (type === 'note') modifyNoteTitle(value, previousValue);
     if (type === 'todo') modifyTodoTitle(value, previousValue);
     // headline.textContent = value;
@@ -54,7 +50,7 @@ const ListHeadline = ({
 
   return (
     <StyledListHeadline className={className} ref={headline}>
-      {textContent || children}
+      {children}
       <PenSVG className="pen-icon" role="button" onClick={() => handlePenClick()} />
       {type === 'todo' && (
         <DeleteSVG
