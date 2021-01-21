@@ -30,8 +30,9 @@ const GlobalStyle = createGlobalStyle`
         padding: 75px 200px;
         background-color: ${({ theme }) => theme.colors.starter};
         max-height: 100vh;
+    }
     
-    button {
+    button { 
         cursor: pointer;
         padding: 0;
     }
