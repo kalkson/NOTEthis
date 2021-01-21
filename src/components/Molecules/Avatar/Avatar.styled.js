@@ -4,20 +4,34 @@ const StyledAvatar = styled.div`
   border: solid 5px ${({ theme }) => theme.colors.background};
   position: absolute;
   background-color: ${({ theme }) => theme.colors.primary};
-  width: 130px;
-  height: 130px;
+  width: 90px;
+  height: 90px;
   border-radius: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 5;
-  right: 10%;
-  top: -70px;
+  right: 5%;
+  top: 20px;
+
+  @media (min-width: 1024px) {
+    width: 130px;
+    height: 130px;
+    right: 10%;
+    top: -70px;
+
+    .avatar {
+      &__icon {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  }
 
   .avatar {
     &__icon {
-      width: 70px;
-      height: 70px;
+      width: 50px;
+      height: 50px;
     }
 
     &__button {
@@ -31,6 +45,7 @@ const StyledAvatar = styled.div`
       justify-content: center;
       align-items: center;
       transition: opacity 0.1s linear;
+      text-align: center;
     }
 
     &__button:hover {

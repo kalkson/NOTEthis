@@ -17,7 +17,7 @@ const StyledSecondaryTile = styled(StyledTile)`
 
   .second {
     &__list-container {
-      margin: 30px 0;
+      margin: 10px 0 30px 0;
       overflow-y: hidden;
 
       ::-webkit-scrollbar {

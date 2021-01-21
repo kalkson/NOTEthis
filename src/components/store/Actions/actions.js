@@ -44,9 +44,50 @@ export const addTodo = title => {
   };
 };
 
+export const addTodos = (title, id) => {
+  return {
+    type: 'ADD_TODOS',
+    title,
+    id,
+  };
+};
+
 export const addNote = title => {
   return {
     type: 'ADD_NOTE',
+    title,
+  };
+};
+
+export const deleteTodos = (title, id) => {
+  return {
+    type: 'DELETE_TODOS',
+    title,
+    id,
+  };
+};
+
+export const throwTodos = (title, id) => {
+  return {
+    type: 'THROW_TODOS',
+    title,
+    id,
+  };
+};
+
+export const returnTodos = (title, id) => {
+  return {
+    type: 'RETURN_TODOS',
+    title,
+    id,
+  };
+};
+
+export const addNotes = (content, title, id) => {
+  return {
+    type: 'ADD_NOTES',
+    content,
+    id,
     title,
   };
 };

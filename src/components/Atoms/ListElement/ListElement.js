@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
-import { modifyTodos } from 'components/store/Actions/actions';
+import { modifyTodos, addTodos, deleteTodos, throwTodos, returnTodos } from 'components/store/Actions/actions';
 import { ReactComponent as AddSVG } from 'assets/vector/add-task-icon.svg';
 import { ReactComponent as ArrowRightSVG } from '../../../assets/vector/arrow-right-icon.svg';
 import { ReactComponent as CheckedSVG } from '../../../assets/vector/checked-icon.svg';
@@ -17,8 +17,6 @@ const StyledListElement = styled.li`
   position: relative;
   width: fit-content;
   font-size: 1.9rem;
-  /* display: flex; */
-  /* align-items: center; */
 
   & button {
     border: none;
@@ -141,6 +139,23 @@ const StyledListElement = styled.li`
       visibility: visible;
     }
   }
+
+  animation-name: list-element-appear;
+  animation-duration: 200ms;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-fill-mode: forwards;
+
+  @keyframes list-element-appear {
+    0% {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+
+    100% {
+      opacity: 1
+      transform: translateY(0);
+    }
+  }
 `;
 
 const StyledSpan = styled.span`
@@ -157,25 +172,64 @@ const StyledSpan = styled.span`
   }
 `;
 
-const ListElement = ({ children, className, type, counter, isActive, modifyTodoElement, id }) => {
-  console.log(id);
+const ListElement = ({
+  children,
+  className,
+  type,
+  counter,
+  isActive,
+  modifyTodoElement,
+  addTodoElement,
+  deleteTodoElement,
+  throwTodoElement,
+  returnTodoElement,
+  isCompletedTodo,
+  id,
+}) => {
   const [elementValue, setElementValue] = useState('');
-  const [textContent, setTextContent] = useState(null);
+  // const [textContent, setTextContent] = useState(null);
   const [previousValue, setPreviousValue] = useState(null);
+  const [listId, setListId] = useState(null);
 
   const listElement = useRef(null);
+  const elementToDelete = useRef(null);
 
-  const handlePenClick = () => {
-    setPreviousValue(listElement.current.textContent);
-    setElementValue(listElement.current.textContent);
-    console.log(elementValue);
+  useEffect(() => {
+    setListId(id);
+  });
+
+  const handlePenClick = (what = null) => {
+    if (what !== 'newItem') {
+      setPreviousValue(listElement.current.textContent);
+      setElementValue(listElement.current.textContent);
+    } else {
+      setPreviousValue('dodaj nowe zadanie');
+      setElementValue('dodaj nowe zadanie');
+    }
+  };
+
+  const handleDeleteClick = () => {
+    deleteTodoElement(listElement.current.textContent, listId);
+    Array.from(listElement.current.children).map(child => child.remove());
   };
 
   const handleSubmit = (e, value) => {
     e.preventDefault();
     setElementValue('');
-    setTextContent(value);
-    modifyTodoElement(value, previousValue, id);
+    if (value === null || value === '') {
+      if (type === 'uncompleted-task') modifyTodoElement(previousValue, previousValue, listId);
+    } else {
+      if (type === 'uncompleted-task') modifyTodoElement(value, previousValue, listId);
+      if (type === 'add-button') addTodoElement(value, listId);
+    }
+  };
+
+  const handleTodoItemClick = e => {
+    throwTodoElement(e.target.textContent, listId);
+  };
+
+  const handleCompletedItemClick = e => {
+    returnTodoElement(e.target.textContent, listId);
   };
 
   switch (type) {
@@ -198,7 +252,9 @@ const ListElement = ({ children, className, type, counter, isActive, modifyTodoE
       return (
         <StyledListElement type="completed-task" className={className}>
           <CheckedSVG className="checked-icon" />
-          {children}
+          <button onClick={isCompletedTodo ? e => handleCompletedItemClick(e) : null} type="button">
+            {children}
+          </button>
         </StyledListElement>
       );
     }
@@ -215,10 +271,16 @@ const ListElement = ({ children, className, type, counter, isActive, modifyTodoE
       }
       return (
         <StyledListElement type="uncompleted-task" className={className} ref={listElement}>
-          <UncheckedSVG className="unchecked-icon" />
-          {textContent || children}
+          <UncheckedSVG
+            className="unchecked-icon"
+            ref={elementToDelete}
+            onClick={isCompletedTodo ? () => handleTodoItemClick() : null}
+          />
+          <button type="button" onClick={e => handleTodoItemClick(e)}>
+            {children}
+          </button>
           <PenSVG className="pen-icon" onClick={() => handlePenClick()} />
-          <DeleteSVG className="delete-icon" />
+          <DeleteSVG className="delete-icon" onClick={() => handleDeleteClick()} />
         </StyledListElement>
       );
     }
@@ -231,7 +293,7 @@ const ListElement = ({ children, className, type, counter, isActive, modifyTodoE
           </StyledSpan>
         );
       return (
-        <StyledListElement type="add-button" className={className} onClick={() => handlePenClick()} ref={listElement}>
+        <StyledListElement type="add-button" className={className} onClick={() => handlePenClick('newItem')}>
           <AddSVG className="add-button-icon" />
           {children}
         </StyledListElement>
@@ -250,6 +312,11 @@ ListElement.propTypes = {
   isActive: propTypes.bool,
   id: propTypes.number,
   modifyTodoElement: propTypes.func.isRequired,
+  addTodoElement: propTypes.func.isRequired,
+  deleteTodoElement: propTypes.func.isRequired,
+  throwTodoElement: propTypes.func.isRequired,
+  returnTodoElement: propTypes.func.isRequired,
+  isCompletedTodo: propTypes.bool,
 };
 
 ListElement.defaultProps = {
@@ -258,11 +325,16 @@ ListElement.defaultProps = {
   isActive: null,
   counter: 0,
   id: null,
+  isCompletedTodo: false,
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     modifyTodoElement: (title, previousValue, id) => dispatch(modifyTodos(title, previousValue, id)),
+    addTodoElement: (title, id) => dispatch(addTodos(title, id)),
+    deleteTodoElement: (title, id) => dispatch(deleteTodos(title, id)),
+    throwTodoElement: (title, id) => dispatch(throwTodos(title, id)),
+    returnTodoElement: (title, id) => dispatch(returnTodos(title, id)),
   };
 };
 

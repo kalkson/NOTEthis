@@ -51,11 +51,11 @@ const TilesContainer = ({ data }) => {
         break;
       }
       case 'third': {
+        console.log(which, type);
         setActiveThirdData([]);
         setThirdActivity(true);
         setActiveThirdData(type);
         handleReveal(thirdRef);
-
         break;
       }
       default:
@@ -79,13 +79,16 @@ const TilesContainer = ({ data }) => {
         ref={secondRef}
         activePosition={activePosition}
         setActivePosition={setActivePosition}
+        setSecondActivity={setSecondActivity}
+        setActiveType={setActiveType}
       />
       <ThirdTile
         isActive={isThirdActive}
-        data={activeThirdData}
+        storeData={data}
         type={activeType}
         ref={thirdRef}
         setThirdActivity={setThirdActivity}
+        thirdDataId={activeThirdData.id}
       />
     </StyledTilesContainer>
   );
