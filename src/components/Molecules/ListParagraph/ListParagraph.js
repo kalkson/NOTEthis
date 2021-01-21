@@ -33,11 +33,13 @@ const StyledListParagraph = styled.div`
 const ListParagraph = ({ children, addNotesToStore, title, id }) => {
   const [textareaText, setTextareaText] = useState('');
   const [paragraphText, setParagraphText] = useState(' ');
+  const [isTextareaVisible, setTextareaVisibility] = useState(false);
 
   const paragraphElement = useRef(null);
   const textareaElement = useRef(null);
 
   const handleDoubleClick = () => {
+    setTextareaVisibility(true);
     setTextareaText(paragraphText);
     textareaElement.current.value = paragraphText;
     textareaElement.current.focus();
@@ -45,6 +47,7 @@ const ListParagraph = ({ children, addNotesToStore, title, id }) => {
   };
 
   const handleSubmit = e => {
+    setTextareaVisibility(false);
     e.preventDefault();
     setParagraphText(paragraphText);
     setTextareaText('');
@@ -67,7 +70,7 @@ const ListParagraph = ({ children, addNotesToStore, title, id }) => {
     return null;
   }, [children, paragraphText]);
 
-  if (textareaText && textareaText.length)
+  if (isTextareaVisible)
     return (
       <StyledListParagraph>
         <form onSubmit={e => handleSubmit(e)}>

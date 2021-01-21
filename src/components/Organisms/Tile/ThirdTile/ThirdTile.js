@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import List from 'components/Molecules/List/List';
 import ListElement from 'components/Atoms/ListElement/ListElement';
+import ReturnButton from 'components/Atoms/ReturnButton/ReturnButton';
 import ListHeadline from 'components/Molecules/ListHeadline/ListHeadline';
 import ListParagraph from 'components/Molecules/ListParagraph/ListParagraph';
 import StyledThirdTile from './ThirdTile.styled';
@@ -59,6 +60,7 @@ const ThirdTile = forwardRef(({ isActive, type, setThirdActivity, storeData, thi
           </div>
         </>
       )}
+      <ReturnButton onClick={() => setThirdActivity(false)} />
     </StyledThirdTile>
   );
 });

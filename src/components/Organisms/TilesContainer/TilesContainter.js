@@ -79,6 +79,8 @@ const TilesContainer = ({ data }) => {
         ref={secondRef}
         activePosition={activePosition}
         setActivePosition={setActivePosition}
+        setSecondActivity={setSecondActivity}
+        setActiveType={setActiveType}
       />
       <ThirdTile
         isActive={isThirdActive}

@@ -5,13 +5,28 @@ import TileButton from 'components/Atoms/TileButton/TileButton';
 import List from 'components/Molecules/List/List';
 import ListInput from 'components/Atoms/ListInput/ListInput';
 import { addNote, addTodo } from 'components/store/Actions/actions';
+import ReturnButton from 'components/Atoms/ReturnButton/ReturnButton';
 import ListElement from 'components/Atoms/ListElement/ListElement';
-import Addnotation from 'components/Atoms/Addnotation/Addnotation';
+// import Addnotation from 'components/Atoms/Addnotation/Addnotation';
 import StyledSecondaryTile from './SecondaryTile.styled';
 // import Tile from '../Tile';
 
 const SecondaryTile = forwardRef(
-  ({ isActive, data, handleClick, type, activePosition, setActivePosition, addNoteElement, addTodoElement }, ref) => {
+  (
+    {
+      isActive,
+      data,
+      handleClick,
+      type,
+      activePosition,
+      setActivePosition,
+      addNoteElement,
+      addTodoElement,
+      setSecondActivity,
+      setActiveType,
+    },
+    ref
+  ) => {
     const [isInputActive, setInputActivity] = useState(false);
 
     useEffect(() => {
@@ -71,7 +86,13 @@ const SecondaryTile = forwardRef(
               })}
           </List>
         </div>
-        <Addnotation className="second__notice">Usuń ukończone listy klikając na nie</Addnotation>
+        {/* <Addnotation className="second__notice">Usuń ukończone listy klikając na nie</Addnotation> */}
+        <ReturnButton
+          onClick={() => {
+            setSecondActivity(false);
+            setActiveType([]);
+          }}
+        />
       </StyledSecondaryTile>
     );
   }
@@ -86,6 +107,8 @@ SecondaryTile.propTypes = {
   type: propTypes.string.isRequired,
   activePosition: propTypes.string,
   setActivePosition: propTypes.func.isRequired,
+  setSecondActivity: propTypes.func.isRequired,
+  setActiveType: propTypes.func.isRequired,
   addNoteElement: propTypes.func.isRequired,
   addTodoElement: propTypes.func.isRequired,
 };

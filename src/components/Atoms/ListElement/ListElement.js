@@ -139,6 +139,23 @@ const StyledListElement = styled.li`
       visibility: visible;
     }
   }
+
+  animation-name: list-element-appear;
+  animation-duration: 200ms;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-fill-mode: forwards;
+
+  @keyframes list-element-appear {
+    0% {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+
+    100% {
+      opacity: 1
+      transform: translateY(0);
+    }
+  }
 `;
 
 const StyledSpan = styled.span`

@@ -244,12 +244,19 @@ const rootReducer = (state = initState, action) => {
 
     case 'ADD_TODOS': {
       const { id } = action;
-      const { todos } = state.lists.active.find(list => list.id === id);
+      const isFine = state.lists.active.find(list => list.id === id) ? 1 : 0;
+      const { todos } =
+        isFine === 1
+          ? state.lists.active.find(list => list.id === id)
+          : state.lists.archived.find(list => list.id === id);
 
       if (todos.find(todo => todo.toLowerCase() === action.title.toLowerCase())) return state;
 
       todos.push(action.title);
-      const actived = state.lists.active.find(list => list.id === id);
+      const actived =
+        isFine === 1
+          ? state.lists.active.find(list => list.id === id)
+          : state.lists.archived.find(list => list.id === id);
 
       const active = [
         {
@@ -259,11 +266,23 @@ const rootReducer = (state = initState, action) => {
         ...[...state.lists.active].filter(todo => todo.id !== id),
       ];
 
+      const archived = state.lists.archived.filter(list => list.id !== action.id);
+
+      if (isFine)
+        return {
+          ...state,
+          lists: {
+            ...state.lists,
+            active,
+          },
+        };
+
       return {
         ...state,
         lists: {
           ...state.lists,
           active,
+          archived,
         },
       };
     }
@@ -283,15 +302,22 @@ const rootReducer = (state = initState, action) => {
         ...[...state.lists.active].filter(todo => todo.id !== id),
       ];
 
-      const tmpState = {
+      // const tmpState = {
+      //   ...state,
+      //   lists: {
+      //     ...state.lists,
+      //     active,
+      //   },
+      // };
+
+      return {
         ...state,
         lists: {
           ...state.lists,
           active,
         },
       };
-
-      return throwToCompleted(tmpState, id);
+      // return throwToCompleted(tmpState, id);
     }
 
     case 'THROW_TODOS': {

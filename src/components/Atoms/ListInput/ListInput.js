@@ -7,7 +7,7 @@ const StyledForm = styled.form``;
 const StyledInput = styled.input`
   background-color: ${({ theme }) => theme.colors.secondary};
   border: none;
-  border-bottom: solid 2px ${({ theme }) => theme.colors.peimary};
+  border-bottom: solid 2px ${({ theme }) => theme.colors.primary};
   outline: none;
   width: 100%;
 
@@ -18,12 +18,13 @@ const StyledInput = styled.input`
       padding: 5px 10px;
       font-weight: bold;
       width: 100%;
+      position: relative;
        `
       : `
         font-size: 1.9rem;
         padding: 1px 5px;
         margin: 1px 0;
-        width: 50%;
+
       `}
 `;
 
@@ -41,10 +42,10 @@ const ListInput = ({ children, className, value, handleSubmit, type }) => {
     <StyledForm onSubmit={e => handleSubmit(e, actualValue)}>
       <StyledInput
         className={className}
-        //   value={value}
         ref={input}
         onChange={e => setActualValue(e.target.value)}
         type={type}
+        placeholder="dodaj nowy element"
       >
         {children}
       </StyledInput>
@@ -55,10 +56,7 @@ const ListInput = ({ children, className, value, handleSubmit, type }) => {
 ListInput.displayName = 'ListInput';
 
 ListInput.propTypes = {
-  children: propTypes.oneOfType([
-    propTypes.shape(propTypes.node),
-    propTypes.node,
-  ]).isRequired,
+  children: propTypes.oneOfType([propTypes.shape(propTypes.node), propTypes.node]).isRequired,
   className: propTypes.string,
   value: propTypes.string,
   handleSubmit: propTypes.func.isRequired,
