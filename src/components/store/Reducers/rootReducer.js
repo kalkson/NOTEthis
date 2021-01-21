@@ -154,6 +154,7 @@ const rootReducer = (state = initState, action) => {
     }
 
     case 'ADD_TODO': {
+      if (action.title === '' || !action.title) return state;
       if (state.lists.active.find(todo => todo.title === action.title)) return state;
 
       return {
@@ -174,6 +175,7 @@ const rootReducer = (state = initState, action) => {
     }
 
     case 'ADD_NOTE': {
+      if (action.title === '' || !action.title) return state;
       if (state.notes.active.find(note => note.title.toLowerCase() === action.title.toLowerCase())) return state;
 
       return {
