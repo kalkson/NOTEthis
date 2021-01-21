@@ -8,8 +8,6 @@ import ThirdTile from '../Tile/ThirdTile/ThirdTile';
 import StyledTilesContainer from './TilesContainer.styled';
 
 const TilesContainer = ({ data }) => {
-  console.log(data);
-
   const secondRef = useRef(null);
   const thirdRef = useRef(null);
 
