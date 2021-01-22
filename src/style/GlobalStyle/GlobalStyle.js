@@ -29,6 +29,14 @@ const GlobalStyle = createGlobalStyle`
         padding: 75px 200px;
         background-color: ${({ theme }) => theme.colors.starter};
         max-height: 100vh;
+
+        @media (min-width: 1024px) {
+            padding: 75px 100px;
+        }
+
+        @media (min-width: 1600px) {
+            padding: 75px 200px;
+        }
     }
     
     button { 

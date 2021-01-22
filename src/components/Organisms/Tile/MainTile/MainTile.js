@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import propTypes from 'prop-types';
 import styled from 'styled-components';
 import Addnotation from 'components/Atoms/Addnotation/Addnotation';
@@ -27,21 +27,72 @@ const SettingsButton = styled.button`
 `;
 
 const MainTile = forwardRef(({ handleClick, counters, type }, ref) => {
+  const [isLoginPanelActive, setLoginPanelActive] = useState(false);
+  const [isRegisterPanelActive, setRegisterPanelActive] = useState(false);
+
+  // useEffect(() => {}, []);
+
+  const handleAuthClick = which => {
+    if (which === 'login') {
+      setLoginPanelActive(true);
+      setRegisterPanelActive(false);
+    } else {
+      setLoginPanelActive(true);
+      setRegisterPanelActive(false);
+    }
+  };
+
+  if (isLoginPanelActive)
+    return (
+      <StyledMainTile className="main" ref={ref} centered>
+        <div>Logowanie</div>
+      </StyledMainTile>
+    );
+
+  if (isRegisterPanelActive)
+    return (
+      <StyledMainTile className="main" ref={ref} centered>
+        <div>Rejestracja</div>
+      </StyledMainTile>
+    );
+
   return (
     <StyledMainTile className="main" ref={ref}>
       <Avatar />
       <h2>Cześć, nieznajomy!</h2>
       <Addnotation>
-        <a href="http://localhost:3000">Zaloguj się</a> lub <a href="http://localhost:3000">zarejestruj</a>, aby zapisać
-        dane
+        <button
+          className="main__authButton"
+          onClick={() => handleAuthClick('regiter')}
+          type="button"
+        >
+          Zaloguj się
+        </button>{' '}
+        lub{' '}
+        <button
+          className="main__authButton"
+          type="button"
+          onClick={() => handleAuthClick('regiter')}
+        >
+          zarejestruj
+        </button>
+        , aby zapisać dane
       </Addnotation>
       <List className="main__list">
-        <ListElement type="main" counter={counters[0]} isActive={type === 'notes' ? true : null}>
+        <ListElement
+          type="main"
+          counter={counters[0]}
+          isActive={type === 'notes' ? true : null}
+        >
           <button onClick={() => handleClick('second', 'notes')} type="button">
             Notatki
           </button>
         </ListElement>
-        <ListElement type="main" counter={counters[1]} isActive={type === 'lists' ? true : null}>
+        <ListElement
+          type="main"
+          counter={counters[1]}
+          isActive={type === 'lists' ? true : null}
+        >
           <button onClick={() => handleClick('second', 'lists')} type="button">
             Listy
           </button>
@@ -60,7 +111,9 @@ MainTile.displayName = 'MainTile';
 MainTile.propTypes = {
   handleClick: propTypes.func.isRequired,
   counters: propTypes.arrayOf(propTypes.number),
-  type: propTypes.arrayOf(propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.number])),
+  type: propTypes.arrayOf(
+    propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.number])
+  ),
   // handleReveal: propTypes.func.isRequired,
 };
 
