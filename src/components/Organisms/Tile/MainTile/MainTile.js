@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Addnotation from 'components/Atoms/Addnotation/Addnotation';
 import ListElement from 'components/Atoms/ListElement/ListElement';
 import List from 'components/Molecules/List/List';
+import Login from 'components/Organisms/auth/Login';
+import Register from 'components/Organisms/auth/Register';
 import Avatar from 'components/Molecules/Avatar/Avatar';
 import { ReactComponent as SettingsSVG } from '../../../../assets/vector/settings-icon.svg';
 import StyledMainTile from './MainTile.styled';
@@ -37,22 +39,22 @@ const MainTile = forwardRef(({ handleClick, counters, type }, ref) => {
       setLoginPanelActive(true);
       setRegisterPanelActive(false);
     } else {
-      setLoginPanelActive(true);
-      setRegisterPanelActive(false);
+      setRegisterPanelActive(true);
+      setLoginPanelActive(false);
     }
   };
 
   if (isLoginPanelActive)
     return (
       <StyledMainTile className="main" ref={ref} centered>
-        <div>Logowanie</div>
+        <Login />
       </StyledMainTile>
     );
 
   if (isRegisterPanelActive)
     return (
       <StyledMainTile className="main" ref={ref} centered>
-        <div>Rejestracja</div>
+        <Register />
       </StyledMainTile>
     );
 
@@ -63,7 +65,7 @@ const MainTile = forwardRef(({ handleClick, counters, type }, ref) => {
       <Addnotation>
         <button
           className="main__authButton"
-          onClick={() => handleAuthClick('regiter')}
+          onClick={() => handleAuthClick('login')}
           type="button"
         >
           Zaloguj się
