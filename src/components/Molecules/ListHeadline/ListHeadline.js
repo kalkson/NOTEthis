@@ -75,18 +75,19 @@ const ListHeadline = ({
 };
 
 ListHeadline.propTypes = {
-  children: propTypes.oneOfType([propTypes.shape(propTypes.node), propTypes.node]).isRequired,
+  children: propTypes.oneOfType([propTypes.shape(propTypes.node), propTypes.node]),
   className: propTypes.string,
   modifyNoteTitle: propTypes.func.isRequired,
   modifyTodoTitle: propTypes.func.isRequired,
   deleteNoteElement: propTypes.func.isRequired,
   deleteTodoElement: propTypes.func.isRequired,
   type: propTypes.string.isRequired,
-  setThirdActivity: propTypes.string.isRequired,
+  setThirdActivity: propTypes.func.isRequired,
 };
 
 ListHeadline.defaultProps = {
   className: null,
+  children: null,
 };
 
 const mapDispatchToProps = dispatch => {

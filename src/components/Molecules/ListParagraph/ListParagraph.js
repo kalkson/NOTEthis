@@ -97,12 +97,14 @@ const ListParagraph = ({ children, addNotesToStore, title, id }) => {
 ListParagraph.propTypes = {
   children: propTypes.oneOfType([propTypes.node, propTypes.shape(propTypes.node)]),
   addNotesToStore: propTypes.func.isRequired,
-  title: propTypes.string.isRequired,
-  id: propTypes.number.isRequired,
+  title: propTypes.string,
+  id: propTypes.number,
 };
 
 ListParagraph.defaultProps = {
   children: 'Kliknij szybko dwa razy, by coś napisać',
+  id: null,
+  title: null,
 };
 
 const mapDispatchToProps = dispatch => {

@@ -7,9 +7,7 @@ import ListInput from 'components/Atoms/ListInput/ListInput';
 import { addNote, addTodo } from 'components/store/Actions/actions';
 import ReturnButton from 'components/Atoms/ReturnButton/ReturnButton';
 import ListElement from 'components/Atoms/ListElement/ListElement';
-// import Addnotation from 'components/Atoms/Addnotation/Addnotation';
 import StyledSecondaryTile from './SecondaryTile.styled';
-// import Tile from '../Tile';
 
 const SecondaryTile = forwardRef(
   (
@@ -70,7 +68,6 @@ const SecondaryTile = forwardRef(
           <List className="second__archived-list">
             {data &&
               data.archived?.map(item => {
-                console.log(item);
                 return (
                   <ListElement
                     key={item.title}
@@ -102,9 +99,12 @@ SecondaryTile.displayName = 'SecondaryTile';
 
 SecondaryTile.propTypes = {
   isActive: propTypes.bool.isRequired,
-  data: propTypes.shape(propTypes.oneOfType([propTypes.shape, propTypes.string])).isRequired,
+  data: propTypes.shape(propTypes.oneOfType([propTypes.shape, propTypes.string])),
   handleClick: propTypes.func.isRequired,
-  type: propTypes.string.isRequired,
+  type: propTypes.oneOfType([
+    propTypes.shape(propTypes.oneOfType([propTypes.shape, propTypes.string, propTypes.number])),
+    propTypes.string,
+  ]).isRequired,
   activePosition: propTypes.string,
   setActivePosition: propTypes.func.isRequired,
   setSecondActivity: propTypes.func.isRequired,
@@ -115,6 +115,7 @@ SecondaryTile.propTypes = {
 
 SecondaryTile.defaultProps = {
   activePosition: null,
+  data: null,
 };
 
 const mapDispatchToProps = dispatch => {

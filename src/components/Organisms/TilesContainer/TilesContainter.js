@@ -22,7 +22,6 @@ const TilesContainer = ({ data }) => {
       const elements = Array.from(tile.current.children);
 
       elements.forEach(element => {
-        console.log(element);
         gsap.fromTo(
           element,
           {
@@ -49,7 +48,6 @@ const TilesContainer = ({ data }) => {
         break;
       }
       case 'third': {
-        console.log(which, type);
         setActiveThirdData([]);
         setThirdActivity(true);
         setActiveThirdData(type);

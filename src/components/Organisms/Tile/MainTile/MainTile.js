@@ -27,33 +27,21 @@ const SettingsButton = styled.button`
 `;
 
 const MainTile = forwardRef(({ handleClick, counters, type }, ref) => {
-  // useEffect(() => {
-  //   handleReveal();
-  // });
-
   return (
     <StyledMainTile className="main" ref={ref}>
       <Avatar />
       <h2>Cześć, nieznajomy!</h2>
       <Addnotation>
-        <a href="http://localhost:3000">Zaloguj się</a> lub{' '}
-        <a href="http://localhost:3000">zarejestruj</a>, aby zapisać dane
+        <a href="http://localhost:3000">Zaloguj się</a> lub <a href="http://localhost:3000">zarejestruj</a>, aby zapisać
+        dane
       </Addnotation>
       <List className="main__list">
-        <ListElement
-          type="main"
-          counter={counters[0]}
-          isActive={type === 'notes' ? true : null}
-        >
+        <ListElement type="main" counter={counters[0]} isActive={type === 'notes' ? true : null}>
           <button onClick={() => handleClick('second', 'notes')} type="button">
             Notatki
           </button>
         </ListElement>
-        <ListElement
-          type="main"
-          counter={counters[1]}
-          isActive={type === 'lists' ? true : null}
-        >
+        <ListElement type="main" counter={counters[1]} isActive={type === 'lists' ? true : null}>
           <button onClick={() => handleClick('second', 'lists')} type="button">
             Listy
           </button>
@@ -71,8 +59,8 @@ MainTile.displayName = 'MainTile';
 
 MainTile.propTypes = {
   handleClick: propTypes.func.isRequired,
-  counters: propTypes.shape(propTypes.number),
-  type: propTypes.string,
+  counters: propTypes.arrayOf(propTypes.number),
+  type: propTypes.arrayOf(propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.number])),
   // handleReveal: propTypes.func.isRequired,
 };
 
