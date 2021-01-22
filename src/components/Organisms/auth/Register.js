@@ -8,11 +8,24 @@ import withLogin from './withLogin';
 
 const StyledRegister = styled(StyledAuthWrapper)``;
 
-const Register = ({ setPassword, setEmail, handleSubmit }) => {
+const Register = ({ setPassword, setEmail, handleSubmit, setName }) => {
   return (
     <StyledRegister>
       <h2>Zarejestruj się</h2>
       <form onSubmit={e => handleSubmit(e, 'register')}>
+        <label htmlFor="name">
+          imię
+          <br />
+          <input
+            minLength="3"
+            maxLength="20"
+            name="name"
+            id="name"
+            type="text"
+            onChange={e => setName(e.target.value)}
+            required
+          />
+        </label>
         <label htmlFor="email">
           e-mail
           <br />
@@ -21,16 +34,20 @@ const Register = ({ setPassword, setEmail, handleSubmit }) => {
             id="email"
             type="e-mail"
             onChange={e => setEmail(e.target.value)}
+            required
           />
         </label>
         <label htmlFor="password">
           hasło
           <br />
           <input
+            minLength="5"
+            maxLength="20"
             name="password"
             id="password"
             type="password"
             onChange={e => setPassword(e.target.value)}
+            required
           />
         </label>
         <button type="submit">Dalej</button>
@@ -46,6 +63,7 @@ const Register = ({ setPassword, setEmail, handleSubmit }) => {
 Register.propTypes = {
   setPassword: propTypes.func.isRequired,
   setEmail: propTypes.func.isRequired,
+  setName: propTypes.func.isRequired,
   handleSubmit: propTypes.func.isRequired,
 };
 

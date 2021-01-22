@@ -4,6 +4,7 @@ const withLogin = Component => {
   const returnComponent = props => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
 
     const handleSubmit = (e, type) => {
       e.preventDefault();
@@ -14,7 +15,7 @@ const withLogin = Component => {
           break;
         }
         case 'register': {
-          console.log(email, password);
+          console.log(email, password, name);
           break;
         }
         default:
@@ -27,6 +28,7 @@ const withLogin = Component => {
         {...props}
         setPassword={setPassword}
         setEmail={setEmail}
+        setName={setName}
         handleSubmit={handleSubmit}
       />
     );
