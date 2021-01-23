@@ -11,12 +11,11 @@ const withLogin = Component => {
 
       switch (type) {
         case 'login': {
-          console.log(email, password);
           props.signInDispatch({ email, password });
           break;
         }
         case 'register': {
-          console.log(email, password, name);
+          props.register({ email, password, name });
           break;
         }
         default:

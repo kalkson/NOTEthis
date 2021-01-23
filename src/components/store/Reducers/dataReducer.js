@@ -1,7 +1,7 @@
 const throwToCompleted = (state, id) => {
   const newCompletedOne = state.lists.active.find(list => list.id === id);
   if (!newCompletedOne.todos.length) {
-    const { archived } = state.lists;
+    const archived = [...state.lists.archived];
     archived.unshift(newCompletedOne);
     const newActive = state.lists.active.filter(list => list.id !== id);
 
@@ -199,7 +199,8 @@ const dataReducer = (state = initState, action) => {
           active: [
             {
               title: action.title,
-              content: '',
+              content: 'kliknij szybko dwa razy, by edytować',
+              id: action.id,
             },
             ...state.notes.active,
           ],
@@ -350,7 +351,7 @@ const dataReducer = (state = initState, action) => {
         list => list.id === action.id
       );
       const todos = activeListTmp.todos.filter(todo => todo !== action.title);
-      const { completed } = activeListTmp;
+      const completed = [...activeListTmp.completed];
       completed.unshift(action.title);
       const { title, id } = state.lists.active.find(
         list => list.id === action.id
@@ -377,7 +378,6 @@ const dataReducer = (state = initState, action) => {
           active,
         },
       };
-
       return throwToCompleted(tmpState, id);
     }
 
@@ -416,6 +416,14 @@ const dataReducer = (state = initState, action) => {
         },
       };
       // return state;
+    }
+
+    case 'OVERWRITE_STORE': {
+      return action.newState;
+    }
+
+    case 'STORE_UPDATED': {
+      return state;
     }
 
     default: {

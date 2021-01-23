@@ -56,6 +56,7 @@ export const addNote = title => {
   return {
     type: 'ADD_NOTE',
     title,
+    id: Math.floor(Math.random() * 1000000000) + 1,
   };
 };
 
@@ -89,5 +90,27 @@ export const addNotes = (content, title, id) => {
     content,
     id,
     title,
+  };
+};
+
+export const overwriteStore = fbData => {
+  return {
+    type: 'OVERWRITE_STORE',
+    newState: fbData,
+  };
+};
+
+export const sendToFirebase = (store, uid) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
+
+    firestore
+      .collection('userData')
+      .doc(uid)
+      .set(store)
+      .then(() => {
+        dispatch({ type: 'STORE_UPDATED' });
+      });
   };
 };

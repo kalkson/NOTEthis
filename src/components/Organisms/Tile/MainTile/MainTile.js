@@ -28,83 +28,95 @@ const SettingsButton = styled.button`
   }
 `;
 
-const MainTile = forwardRef(({ handleClick, counters, type }, ref) => {
-  const [isLoginPanelActive, setLoginPanelActive] = useState(false);
-  const [isRegisterPanelActive, setRegisterPanelActive] = useState(false);
+const MainTile = forwardRef(
+  ({ handleClick, counters, type, userName }, ref) => {
+    const [isLoginPanelActive, setLoginPanelActive] = useState(false);
+    const [isRegisterPanelActive, setRegisterPanelActive] = useState(false);
 
-  const handleAuthClick = which => {
-    if (which === 'login') {
-      setLoginPanelActive(true);
-      setRegisterPanelActive(false);
-    } else {
-      setRegisterPanelActive(true);
-      setLoginPanelActive(false);
-    }
-  };
+    const handleAuthClick = which => {
+      if (which === 'login') {
+        setLoginPanelActive(true);
+        setRegisterPanelActive(false);
+      } else {
+        setRegisterPanelActive(true);
+        setLoginPanelActive(false);
+      }
+    };
 
-  if (isLoginPanelActive)
+    if (isLoginPanelActive)
+      return (
+        <StyledMainTile className="main" ref={ref} centered>
+          <Login setLoginPanelActive={setLoginPanelActive} />
+        </StyledMainTile>
+      );
+
+    if (isRegisterPanelActive)
+      return (
+        <StyledMainTile className="main" ref={ref} centered>
+          <Register setRegisterPanelActive={setRegisterPanelActive} />
+        </StyledMainTile>
+      );
+
     return (
-      <StyledMainTile className="main" ref={ref} centered>
-        <Login setLoginPanelActive={setLoginPanelActive} />
+      <StyledMainTile className="main" ref={ref}>
+        <Avatar />
+
+        <h2>Cześć, {userName || 'nieznajomy'}!</h2>
+        {!userName ? (
+          <Addnotation>
+            <button
+              className="main__authButton"
+              onClick={() => handleAuthClick('login')}
+              type="button"
+            >
+              Zaloguj się
+            </button>{' '}
+            lub{' '}
+            <button
+              className="main__authButton"
+              type="button"
+              onClick={() => handleAuthClick('regiter')}
+            >
+              zarejestruj
+            </button>
+            , aby zapisać dane
+          </Addnotation>
+        ) : null}
+
+        <List className="main__list">
+          <ListElement
+            type="main"
+            counter={counters[0]}
+            isActive={type === 'notes' ? true : null}
+          >
+            <button
+              onClick={() => handleClick('second', 'notes')}
+              type="button"
+            >
+              Notatki
+            </button>
+          </ListElement>
+          <ListElement
+            type="main"
+            counter={counters[1]}
+            isActive={type === 'lists' ? true : null}
+          >
+            <button
+              onClick={() => handleClick('second', 'lists')}
+              type="button"
+            >
+              Listy
+            </button>
+          </ListElement>
+        </List>
+        <SettingsButton>
+          <SettingsSVG />
+          Ustawienia
+        </SettingsButton>
       </StyledMainTile>
     );
-
-  if (isRegisterPanelActive)
-    return (
-      <StyledMainTile className="main" ref={ref} centered>
-        <Register setRegisterPanelActive={setRegisterPanelActive} />
-      </StyledMainTile>
-    );
-
-  return (
-    <StyledMainTile className="main" ref={ref}>
-      <Avatar />
-      <h2>Cześć, nieznajomy!</h2>
-      <Addnotation>
-        <button
-          className="main__authButton"
-          onClick={() => handleAuthClick('login')}
-          type="button"
-        >
-          Zaloguj się
-        </button>{' '}
-        lub{' '}
-        <button
-          className="main__authButton"
-          type="button"
-          onClick={() => handleAuthClick('regiter')}
-        >
-          zarejestruj
-        </button>
-        , aby zapisać dane
-      </Addnotation>
-      <List className="main__list">
-        <ListElement
-          type="main"
-          counter={counters[0]}
-          isActive={type === 'notes' ? true : null}
-        >
-          <button onClick={() => handleClick('second', 'notes')} type="button">
-            Notatki
-          </button>
-        </ListElement>
-        <ListElement
-          type="main"
-          counter={counters[1]}
-          isActive={type === 'lists' ? true : null}
-        >
-          <button onClick={() => handleClick('second', 'lists')} type="button">
-            Listy
-          </button>
-        </ListElement>
-      </List>
-      <SettingsButton>
-        <SettingsSVG />
-        Ustawienia
-      </SettingsButton>
-    </StyledMainTile>
-  );
-});
+  }
+);
 
 MainTile.displayName = 'MainTile';
 
@@ -114,10 +126,12 @@ MainTile.propTypes = {
   type: propTypes.arrayOf(
     propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.number])
   ),
+  userName: propTypes.string,
   // handleReveal: propTypes.func.isRequired,
 };
 
 MainTile.defaultProps = {
+  userName: null,
   counters: [0, 0],
   type: null,
 };

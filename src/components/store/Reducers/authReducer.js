@@ -10,6 +10,12 @@ const authReducer = (state = initState, action) => {
         authError: 'Login failed',
       };
 
+    case 'REGISTER_ERROR':
+      return {
+        ...state,
+        authError: 'Register failed failed',
+      };
+
     case 'LOGIN_SUCCESS':
       return {
         ...state,
@@ -18,6 +24,12 @@ const authReducer = (state = initState, action) => {
 
     case 'SIGNOUT_SUCCESS':
       return state;
+
+    case 'REGISTER_SUCCESS':
+      return {
+        ...state,
+        authError: null,
+      };
 
     default:
       return state;

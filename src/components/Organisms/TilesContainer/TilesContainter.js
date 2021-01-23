@@ -1,18 +1,25 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import propTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import gsap from 'gsap';
+import {
+  overwriteStore,
+  sendToFirebase,
+} from 'components/store/Actions/actions';
 import MainTile from '../Tile/MainTile/MainTile';
 import SecondaryTile from '../Tile/SecondaryTile/SecondaryTile';
 import ThirdTile from '../Tile/ThirdTile/ThirdTile';
 import StyledTilesContainer from './TilesContainer.styled';
 
-const TilesContainer = ({ data, auth, userData }) => {
-  console.log(auth);
-  // console.clear();
-  console.log(userData);
+const TilesContainer = ({
+  data,
+  auth,
+  userData,
+  updateStoreFromFirebase,
+  sendStoreToFirebase,
+}) => {
   const secondRef = useRef(null);
   const thirdRef = useRef(null);
 
@@ -21,6 +28,18 @@ const TilesContainer = ({ data, auth, userData }) => {
   const [activePosition, setActivePosition] = useState(null);
   const [activeType, setActiveType] = useState([]);
   const [activeThirdData, setActiveThirdData] = useState([]);
+  const [isFirestoreFetched, setFirestoreFetched] = useState(false);
+  const [isStoreFetchingAvailable, setStoreFetchingAvailable] = useState(false);
+
+  useEffect(() => {
+    if (!isFirestoreFetched && userData) {
+      updateStoreFromFirebase(userData);
+      setFirestoreFetched(true);
+      setStoreFetchingAvailable(true);
+    }
+
+    if (auth && isStoreFetchingAvailable) sendStoreToFirebase(data, auth.uid);
+  }, [data, userData]);
 
   const handleReveal = tile => {
     if (tile?.current) {
@@ -70,12 +89,16 @@ const TilesContainer = ({ data, auth, userData }) => {
         isActive={isSecondActive}
         type={activeType}
         handleClick={handleClick}
-        counters={[data.notes?.active.length, data.lists?.active.length]}
+        counters={[
+          userData?.notes.active.length || data?.notes.active.length || 0,
+          userData?.lists.active.length || data?.lists.active.length || 0,
+        ]}
+        userName={userData?.name}
       />
       <SecondaryTile
         isActive={isSecondActive}
         handleClick={handleClick}
-        data={data[activeType]}
+        data={(userData && userData[activeType]) || data[activeType]}
         type={activeType}
         ref={secondRef}
         activePosition={activePosition}
@@ -85,7 +108,7 @@ const TilesContainer = ({ data, auth, userData }) => {
       />
       <ThirdTile
         isActive={isThirdActive}
-        storeData={data}
+        storeData={userData || data}
         type={activeType}
         ref={thirdRef}
         setThirdActivity={setThirdActivity}
@@ -99,6 +122,8 @@ TilesContainer.propTypes = {
   data: propTypes.shape(propTypes.shape).isRequired,
   auth: propTypes.shape(propTypes.shape),
   userData: propTypes.shape(propTypes.shape),
+  updateStoreFromFirebase: propTypes.func.isRequired,
+  sendStoreToFirebase: propTypes.func.isRequired,
 };
 
 TilesContainer.defaultProps = {
@@ -116,8 +141,14 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    updateStoreFromFirebase: store => dispatch(overwriteStore(store)),
+    sendStoreToFirebase: (store, uid) => dispatch(sendToFirebase(store, uid)),
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([{ collection: 'userData' }])
 )(TilesContainer);
-// connect(mapStateToProps)(TilesContainer);
