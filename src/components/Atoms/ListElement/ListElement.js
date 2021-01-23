@@ -2,7 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
-import { modifyTodos, addTodos, deleteTodos, throwTodos, returnTodos } from 'components/store/Actions/actions';
+import {
+  modifyTodos,
+  addTodos,
+  deleteTodos,
+  throwTodos,
+  returnTodos,
+} from 'components/store/Actions/actions';
 import { ReactComponent as AddSVG } from 'assets/vector/add-task-icon.svg';
 import { ReactComponent as ArrowRightSVG } from '../../../assets/vector/arrow-right-icon.svg';
 import { ReactComponent as CheckedSVG } from '../../../assets/vector/checked-icon.svg';
@@ -25,7 +31,8 @@ const StyledListElement = styled.li`
     transition: font-size 0.05s ease-in-out;
 
     font-weight: ${({ isActive }) => (isActive ? 'bold' : null)};
-    font-size: ${({ isActive, type }) => (isActive && type === 'main' ? '3rem' : '1.9rem')};
+    font-size: ${({ isActive, type }) =>
+      isActive && type === 'main' ? '3rem' : '1.9rem'};
   }
 
   &:after {
@@ -152,7 +159,7 @@ const StyledListElement = styled.li`
     }
 
     100% {
-      opacity: 1
+      opacity: 1;
       transform: translateY(0);
     }
   }
@@ -217,9 +224,11 @@ const ListElement = ({
     e.preventDefault();
     setElementValue('');
     if (value === null || value === '') {
-      if (type === 'uncompleted-task') modifyTodoElement(previousValue, previousValue, listId);
+      if (type === 'uncompleted-task')
+        modifyTodoElement(previousValue, previousValue, listId);
     } else {
-      if (type === 'uncompleted-task') modifyTodoElement(value, previousValue, listId);
+      if (type === 'uncompleted-task')
+        modifyTodoElement(value, previousValue, listId);
       if (type === 'add-button') addTodoElement(value, listId);
     }
   };
@@ -235,14 +244,23 @@ const ListElement = ({
   switch (type) {
     case 'main': {
       return (
-        <StyledListElement type="main" counter={counter} className={className} isActive={isActive}>
+        <StyledListElement
+          type="main"
+          counter={counter}
+          className={className}
+          isActive={isActive}
+        >
           {children}
         </StyledListElement>
       );
     }
     case 'active-item': {
       return (
-        <StyledListElement type="active-item" className={className} isActive={isActive}>
+        <StyledListElement
+          type="active-item"
+          className={className}
+          isActive={isActive}
+        >
           <ArrowRightSVG className="arrow-right-icon" />
           {children}
         </StyledListElement>
@@ -252,7 +270,10 @@ const ListElement = ({
       return (
         <StyledListElement type="completed-task" className={className}>
           <CheckedSVG className="checked-icon" />
-          <button onClick={isCompletedTodo ? e => handleCompletedItemClick(e) : null} type="button">
+          <button
+            onClick={isCompletedTodo ? e => handleCompletedItemClick(e) : null}
+            type="button"
+          >
             {children}
           </button>
         </StyledListElement>
@@ -264,13 +285,21 @@ const ListElement = ({
           <>
             <StyledSpan>
               <UncheckedSVG className="unchecked-icon" />
-              <ListInput type="list" handleSubmit={handleSubmit} value={elementValue} />
+              <ListInput
+                type="list"
+                handleSubmit={handleSubmit}
+                value={elementValue}
+              />
             </StyledSpan>
           </>
         );
       }
       return (
-        <StyledListElement type="uncompleted-task" className={className} ref={listElement}>
+        <StyledListElement
+          type="uncompleted-task"
+          className={className}
+          ref={listElement}
+        >
           <UncheckedSVG
             className="unchecked-icon"
             ref={elementToDelete}
@@ -280,7 +309,10 @@ const ListElement = ({
             {children}
           </button>
           <PenSVG className="pen-icon" onClick={() => handlePenClick()} />
-          <DeleteSVG className="delete-icon" onClick={() => handleDeleteClick()} />
+          <DeleteSVG
+            className="delete-icon"
+            onClick={() => handleDeleteClick()}
+          />
         </StyledListElement>
       );
     }
@@ -289,23 +321,36 @@ const ListElement = ({
         return (
           <StyledSpan>
             <AddSVG className="add-button-icon" />
-            <ListInput type="list" handleSubmit={handleSubmit} value={elementValue} />
+            <ListInput
+              type="list"
+              handleSubmit={handleSubmit}
+              value={elementValue}
+            />
           </StyledSpan>
         );
       return (
-        <StyledListElement type="add-button" className={className} onClick={() => handlePenClick('newItem')}>
+        <StyledListElement
+          type="add-button"
+          className={className}
+          onClick={() => handlePenClick('newItem')}
+        >
           <AddSVG className="add-button-icon" />
           {children}
         </StyledListElement>
       );
     }
     default:
-      return <StyledListElement className={className}>{children}</StyledListElement>;
+      return (
+        <StyledListElement className={className}>{children}</StyledListElement>
+      );
   }
 };
 
 ListElement.propTypes = {
-  children: propTypes.oneOfType([propTypes.arrayOf(propTypes.node), propTypes.node]).isRequired,
+  children: propTypes.oneOfType([
+    propTypes.arrayOf(propTypes.node),
+    propTypes.node,
+  ]).isRequired,
   className: propTypes.string,
   type: propTypes.string,
   counter: propTypes.number,
@@ -330,7 +375,8 @@ ListElement.defaultProps = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    modifyTodoElement: (title, previousValue, id) => dispatch(modifyTodos(title, previousValue, id)),
+    modifyTodoElement: (title, previousValue, id) =>
+      dispatch(modifyTodos(title, previousValue, id)),
     addTodoElement: (title, id) => dispatch(addTodos(title, id)),
     deleteTodoElement: (title, id) => dispatch(deleteTodos(title, id)),
     throwTodoElement: (title, id) => dispatch(throwTodos(title, id)),

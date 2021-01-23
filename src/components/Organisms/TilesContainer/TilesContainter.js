@@ -1,13 +1,18 @@
 import React, { useState, useRef } from 'react';
 import propTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import gsap from 'gsap';
 import MainTile from '../Tile/MainTile/MainTile';
 import SecondaryTile from '../Tile/SecondaryTile/SecondaryTile';
 import ThirdTile from '../Tile/ThirdTile/ThirdTile';
 import StyledTilesContainer from './TilesContainer.styled';
 
-const TilesContainer = ({ data }) => {
+const TilesContainer = ({ data, auth, userData }) => {
+  console.log(auth);
+  // console.clear();
+  console.log(userData);
   const secondRef = useRef(null);
   const thirdRef = useRef(null);
 
@@ -92,12 +97,27 @@ const TilesContainer = ({ data }) => {
 
 TilesContainer.propTypes = {
   data: propTypes.shape(propTypes.shape).isRequired,
+  auth: propTypes.shape(propTypes.shape),
+  userData: propTypes.shape(propTypes.shape),
+};
+
+TilesContainer.defaultProps = {
+  auth: null,
+  userData: null,
 };
 
 const mapStateToProps = state => {
   return {
-    data: state,
+    data: state.data,
+    auth: state.firebase.auth,
+    userData: state.firestore.ordered.userData?.find(
+      data => data.id === state.firebase.auth.uid
+    ),
   };
 };
 
-export default connect(mapStateToProps)(TilesContainer);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: 'userData' }])
+)(TilesContainer);
+// connect(mapStateToProps)(TilesContainer);

@@ -32,8 +32,6 @@ const MainTile = forwardRef(({ handleClick, counters, type }, ref) => {
   const [isLoginPanelActive, setLoginPanelActive] = useState(false);
   const [isRegisterPanelActive, setRegisterPanelActive] = useState(false);
 
-  // useEffect(() => {}, []);
-
   const handleAuthClick = which => {
     if (which === 'login') {
       setLoginPanelActive(true);
@@ -47,14 +45,14 @@ const MainTile = forwardRef(({ handleClick, counters, type }, ref) => {
   if (isLoginPanelActive)
     return (
       <StyledMainTile className="main" ref={ref} centered>
-        <Login />
+        <Login setLoginPanelActive={setLoginPanelActive} />
       </StyledMainTile>
     );
 
   if (isRegisterPanelActive)
     return (
       <StyledMainTile className="main" ref={ref} centered>
-        <Register />
+        <Register setRegisterPanelActive={setRegisterPanelActive} />
       </StyledMainTile>
     );
 

@@ -12,6 +12,7 @@ const withLogin = Component => {
       switch (type) {
         case 'login': {
           console.log(email, password);
+          props.signInDispatch({ email, password });
           break;
         }
         case 'register': {
