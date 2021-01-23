@@ -3,10 +3,6 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/storage';
 
-import dotenv from 'dotenv';
-
-dotenv.config();
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
