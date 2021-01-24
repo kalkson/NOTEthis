@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import ColorPicker, { useColor } from 'react-color-palette';
 import { modifyColor } from 'components/store/Actions/actions';
 import { connect } from 'react-redux';
+import { signOut } from 'components/store/Actions/authActions';
 
 const StyledSettings = styled.div`
   position: absolute;
@@ -26,17 +27,32 @@ const StyledSettings = styled.div`
     margin-bottom: 10px;
   }
 
+  .buttonsContainer {
+    display: flex;
+    margin-top: auto;
+    flex-direction: column;
+
+    .return-button {
+      text-decoration: underline;
+      font-size: 2.5rem;
+    }
+
+    .logout-button {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+  }
+
   button {
     border: none;
     outline: none;
     background: transparent;
     font-size: 2rem;
     margin-top: auto;
-    margin-bottom: 20%;
     width: fit-content;
 
     @media (min-width: 1024px) {
-      margin-bottom: 10%;
+      /* margin-bottom: 10%; */
     }
   }
 
@@ -73,8 +89,9 @@ const Settings = ({
   setSettingsPanelActive,
   modifyUserColor,
   previousColor,
+  signOutUser,
 }) => {
-  const [color, setColor] = useColor('hex', previousColor || '#000000');
+  const [color, setColor] = useColor('hex', previousColor || '#e5c373');
   const [t, setT] = useState(null);
   useEffect(() => {
     document.querySelector('body').style.backgroundColor = color.hex;
@@ -103,14 +120,27 @@ const Settings = ({
         onChange={setColor}
         fair
       />
-      <button
-        type="button"
-        onClick={() => {
-          setSettingsPanelActive(false);
-        }}
-      >
-        Wróć
-      </button>
+      <div className="buttonsContainer">
+        <button
+          type="button"
+          className="logout-button"
+          onClick={() => {
+            signOutUser();
+            setSettingsPanelActive(false);
+          }}
+        >
+          Wyloguj się
+        </button>
+        <button
+          type="button"
+          className="return-button"
+          onClick={() => {
+            setSettingsPanelActive(false);
+          }}
+        >
+          Wróć
+        </button>
+      </div>
     </StyledSettings>
   );
 };
@@ -119,6 +149,7 @@ Settings.propTypes = {
   isActive: propTypes.bool.isRequired,
   setSettingsPanelActive: propTypes.func.isRequired,
   modifyUserColor: propTypes.func.isRequired,
+  signOutUser: propTypes.func.isRequired,
   previousColor: propTypes.string,
 };
 
@@ -127,7 +158,10 @@ Settings.defaultProps = {
 };
 
 const mapDispatchToProps = dispatch => {
-  return { modifyUserColor: color => dispatch(modifyColor(color)) };
+  return {
+    modifyUserColor: color => dispatch(modifyColor(color)),
+    signOutUser: () => dispatch(signOut()),
+  };
 };
 
 export default connect(null, mapDispatchToProps)(Settings);

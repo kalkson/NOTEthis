@@ -3,6 +3,7 @@ import StyledTile from '../Tile.styled';
 
 const StyledMainTile = styled(StyledTile)`
   z-index: 8;
+  overflow-y: hidden;
 
   align-items: ${({ centered }) => (centered ? 'center' : null)};
   justify-content: ${({ centered }) => (centered ? 'center' : null)};
@@ -37,6 +38,7 @@ const StyledMainTile = styled(StyledTile)`
 
   @media (min-width: 1024px) {
     z-index: 10;
+    overflow-y: visible;
   }
 `;
 

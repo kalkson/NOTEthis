@@ -388,7 +388,7 @@ const dataReducer = (state = initState, action) => {
       const completed = activeListTmp.completed.filter(
         todo => todo !== action.title
       );
-      const { todos } = activeListTmp;
+      const todos = [...activeListTmp.todos];
       todos.unshift(action.title);
       const { title, id } =
         state.lists.active.find(list => list.id === action.id) ||
