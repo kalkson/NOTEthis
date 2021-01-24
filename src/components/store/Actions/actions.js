@@ -116,11 +116,7 @@ export const sendToFirebase = (store, uid) => {
 };
 
 export const modifyColor = color => {
-  return (dispatch, getState, { getFirebase }) => {
-    const firebase = getFirebase();
-    const firestore = firebase.firestore();
-    const userData = getState().data;
-
+  return dispatch => {
     dispatch({ type: 'COLOR_UPDATED', color: color.hex });
   };
 };

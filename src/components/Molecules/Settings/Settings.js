@@ -18,7 +18,13 @@ const StyledSettings = styled.div`
   background: ${({ theme }) => theme.colors.secondary};
   bottom: 0;
   left: 0;
-  align-items: center;
+  /* align-items: center; */
+  font-size: 2.5rem;
+
+  h4 {
+    margin: 0;
+    margin-bottom: 10px;
+  }
 
   button {
     border: none;
@@ -27,6 +33,7 @@ const StyledSettings = styled.div`
     font-size: 2rem;
     margin-top: auto;
     margin-bottom: 20%;
+    width: fit-content;
 
     @media (min-width: 1024px) {
       margin-bottom: 10%;
@@ -42,6 +49,8 @@ const StyledSettings = styled.div`
   }
 
   @media (min-width: 1024px) {
+    font-size: 1.9rem;
+
     .rcp-dark {
       display: flex;
     }
@@ -68,7 +77,6 @@ const Settings = ({
   const [color, setColor] = useColor('hex', previousColor || '#000000');
   const [t, setT] = useState(null);
   useEffect(() => {
-    // setColor(previousColor);
     document.querySelector('body').style.backgroundColor = color.hex;
 
     if (color.hex !== '#000000') {

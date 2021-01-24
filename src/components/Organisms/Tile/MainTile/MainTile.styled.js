@@ -23,6 +23,16 @@ const StyledMainTile = styled(StyledTile)`
         outline: none;
       }
     }
+
+    &__logo {
+      @media (min-width: 1024px) {
+        display: none;
+      }
+
+      path:last-child {
+        fill: ${({ theme }) => theme.colors.primary};
+      }
+    }
   }
 
   @media (min-width: 1024px) {

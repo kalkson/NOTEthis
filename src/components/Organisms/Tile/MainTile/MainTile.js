@@ -6,6 +6,7 @@ import ListElement from 'components/Atoms/ListElement/ListElement';
 import List from 'components/Molecules/List/List';
 import Login from 'components/Organisms/auth/Login';
 import Settings from 'components/Molecules/Settings/Settings';
+import LogoSVG from 'components/Atoms/Logo/Logo';
 import Register from 'components/Organisms/auth/Register';
 import Avatar from 'components/Molecules/Avatar/Avatar';
 import { ReactComponent as SettingsSVG } from '../../../../assets/vector/settings-icon.svg';
@@ -26,6 +27,11 @@ const SettingsButton = styled.button`
     width: 20px;
     height: 20px;
     margin-right: 10px;
+    transform: ${({ isActive }) => (isActive ? 'rotate(30deg)' : 'rotate(0)1')};
+
+    path {
+      fill: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;
 
@@ -53,6 +59,7 @@ const MainTile = forwardRef(
     if (isLoginPanelActive)
       return (
         <StyledMainTile className="main" ref={ref} centered>
+          <LogoSVG className="main__logo" />
           <Login setLoginPanelActive={setLoginPanelActive} />
         </StyledMainTile>
       );
@@ -60,6 +67,7 @@ const MainTile = forwardRef(
     if (isRegisterPanelActive)
       return (
         <StyledMainTile className="main" ref={ref} centered>
+          <LogoSVG className="main__logo" />
           <Register setRegisterPanelActive={setRegisterPanelActive} />
         </StyledMainTile>
       );
@@ -67,6 +75,7 @@ const MainTile = forwardRef(
     return (
       <StyledMainTile className="main" ref={ref}>
         <Avatar />
+        <LogoSVG className="main__logo" />
 
         <h2>Cześć, {userName || 'nieznajomy'}!</h2>
         {!userName ? (
@@ -116,10 +125,12 @@ const MainTile = forwardRef(
             </button>
           </ListElement>
         </List>
-        <SettingsButton onClick={() => setSettingsPanelActive(true)}>
-          <SettingsSVG />
-          Ustawienia
-        </SettingsButton>
+        {userName && (
+          <SettingsButton onClick={() => setSettingsPanelActive(true)}>
+            <SettingsSVG />
+            Ustawienia
+          </SettingsButton>
+        )}
         <Settings
           isActive={isSettingsPanelActive}
           setSettingsPanelActive={setSettingsPanelActive}
