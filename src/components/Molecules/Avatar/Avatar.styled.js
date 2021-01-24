@@ -10,7 +10,7 @@ const StyledAvatar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5;
+  z-index: 0;
   right: 5%;
   top: 20px;
 

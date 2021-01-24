@@ -5,6 +5,7 @@ import Addnotation from 'components/Atoms/Addnotation/Addnotation';
 import ListElement from 'components/Atoms/ListElement/ListElement';
 import List from 'components/Molecules/List/List';
 import Login from 'components/Organisms/auth/Login';
+import Settings from 'components/Molecules/Settings/Settings';
 import Register from 'components/Organisms/auth/Register';
 import Avatar from 'components/Molecules/Avatar/Avatar';
 import { ReactComponent as SettingsSVG } from '../../../../assets/vector/settings-icon.svg';
@@ -32,6 +33,7 @@ const MainTile = forwardRef(
   ({ handleClick, counters, type, userName }, ref) => {
     const [isLoginPanelActive, setLoginPanelActive] = useState(false);
     const [isRegisterPanelActive, setRegisterPanelActive] = useState(false);
+    const [isSettingsPanelActive, setSettingsPanelActive] = useState(false);
 
     const handleAuthClick = which => {
       if (which === 'login') {
@@ -109,10 +111,14 @@ const MainTile = forwardRef(
             </button>
           </ListElement>
         </List>
-        <SettingsButton>
+        <SettingsButton onClick={() => setSettingsPanelActive(true)}>
           <SettingsSVG />
           Ustawienia
         </SettingsButton>
+        <Settings
+          isActive={isSettingsPanelActive}
+          setSettingsPanelActive={setSettingsPanelActive}
+        />
       </StyledMainTile>
     );
   }
