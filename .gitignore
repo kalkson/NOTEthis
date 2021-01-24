@@ -25,9 +25,9 @@ yarn-error.log*
 
 firebase.json
 firestore.rules
-firestore.indexes.json
+firestore.indexes.json 
 storage.rules
 .firebaserc
-/src/components/config
+/src/config
 
 .env
