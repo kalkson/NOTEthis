@@ -35,7 +35,6 @@ const ListInput = ({ children, className, value, handleSubmit, type }) => {
   useEffect(() => {
     input.current.value = value;
     input.current.select();
-    console.log(value);
   }, []);
 
   return (

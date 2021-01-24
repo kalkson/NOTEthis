@@ -65,7 +65,10 @@ const ListParagraph = ({ children, addNotesToStore, title, id }) => {
 
     if (paragraphElement.current !== null)
       return () => {
-        paragraphElement.current?.removeEventListener('dblclick', handleDoubleClick);
+        paragraphElement.current?.removeEventListener(
+          'dblclick',
+          handleDoubleClick
+        );
       };
     return null;
   }, [children, paragraphText]);
@@ -74,7 +77,11 @@ const ListParagraph = ({ children, addNotesToStore, title, id }) => {
     return (
       <StyledListParagraph>
         <form onSubmit={e => handleSubmit(e)}>
-          <textarea onChange={e => handleChange(e)} ref={textareaElement} name="paragraphData" />
+          <textarea
+            onChange={e => handleChange(e)}
+            ref={textareaElement}
+            name="paragraphData"
+          />
           <button type="submit">Edytuj</button>
         </form>
       </StyledListParagraph>
@@ -95,14 +102,19 @@ const ListParagraph = ({ children, addNotesToStore, title, id }) => {
 };
 
 ListParagraph.propTypes = {
-  children: propTypes.oneOfType([propTypes.node, propTypes.shape(propTypes.node)]),
+  children: propTypes.oneOfType([
+    propTypes.node,
+    propTypes.shape(propTypes.node),
+  ]),
   addNotesToStore: propTypes.func.isRequired,
-  title: propTypes.string.isRequired,
-  id: propTypes.number.isRequired,
+  title: propTypes.string,
+  id: propTypes.number,
 };
 
 ListParagraph.defaultProps = {
   children: 'Kliknij szybko dwa razy, by coś napisać',
+  id: null,
+  title: null,
 };
 
 const mapDispatchToProps = dispatch => {

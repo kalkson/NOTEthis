@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
 
     *,
     *:before,
@@ -30,8 +29,17 @@ const GlobalStyle = createGlobalStyle`
         padding: 75px 200px;
         background-color: ${({ theme }) => theme.colors.starter};
         max-height: 100vh;
+
+        @media (min-width: 1024px) {
+            padding: 75px 100px;
+        }
+
+        @media (min-width: 1600px) {
+            padding: 75px 200px;
+        }
+    }
     
-    button {
+    button { 
         cursor: pointer;
         padding: 0;
     }

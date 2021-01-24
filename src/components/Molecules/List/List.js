@@ -8,20 +8,16 @@ const StyledList = styled.ul`
   margin: 0;
 `;
 
-const List = ({ children, className }) => (
-  <StyledList className={className}>{children}</StyledList>
-);
+const List = ({ children, className }) => <StyledList className={className}>{children}</StyledList>;
 
 List.propTypes = {
-  children: propTypes.oneOfType([
-    propTypes.arrayOf(propTypes.node),
-    propTypes.node,
-  ]).isRequired,
+  children: propTypes.oneOfType([propTypes.arrayOf(propTypes.node), propTypes.node]),
   className: propTypes.string,
 };
 
 List.defaultProps = {
   className: null,
+  children: undefined,
 };
 
 export default List;

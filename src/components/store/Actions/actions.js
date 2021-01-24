@@ -56,6 +56,7 @@ export const addNote = title => {
   return {
     type: 'ADD_NOTE',
     title,
+    id: Math.floor(Math.random() * 1000000000) + 1,
   };
 };
 
@@ -89,5 +90,61 @@ export const addNotes = (content, title, id) => {
     content,
     id,
     title,
+  };
+};
+
+export const overwriteStore = fbData => {
+  return {
+    type: 'OVERWRITE_STORE',
+    newState: fbData,
+  };
+};
+
+export const sendToFirebase = (store, uid) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
+
+    firestore
+      .collection('userData')
+      .doc(uid)
+      .set(store)
+      .then(() => {
+        dispatch({ type: 'STORE_UPDATED' });
+      });
+  };
+};
+
+export const modifyColor = color => {
+  return dispatch => {
+    dispatch({ type: 'COLOR_UPDATED', color: color.hex });
+  };
+};
+
+export const eraseStoreAfterSignOut = () => {
+  return dispatch => {
+    dispatch({ type: 'ERASE_STORE' });
+  };
+};
+
+export const changeAvatar = image => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    const storage = firebase.storage();
+
+    const { id } = getState().data;
+
+    storage
+      .ref(`files/${id}.${image.name.split('.')[1]}`)
+      .put(image)
+      .then(() => {
+        storage
+          .ref(`files`)
+          .child(`${id}.${image.name.split('.')[1]}`)
+          .getDownloadURL()
+          .then(url => {
+            dispatch({ type: 'AVATAR_CHANGED', url });
+          });
+      });
   };
 };

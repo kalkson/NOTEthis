@@ -19,7 +19,7 @@ const StyledReturnButton = styled.button`
 `;
 
 const ReturnButton = ({ onClick }) => {
-  return <StyledReturnButton onClick={onClick}>« Wróc</StyledReturnButton>;
+  return <StyledReturnButton onClick={onClick}>« Wróć</StyledReturnButton>;
 };
 
 ReturnButton.propTypes = {

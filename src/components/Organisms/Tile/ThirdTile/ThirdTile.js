@@ -9,7 +9,6 @@ import StyledThirdTile from './ThirdTile.styled';
 // import Tile from '../Tile';
 
 const ThirdTile = forwardRef(({ isActive, type, setThirdActivity, storeData, thirdDataId }, ref) => {
-  console.log(storeData);
   const [data, setData] = useState([]);
   useEffect(() => {
     if (type === 'lists' && storeData.lists.active?.find(list => list.id === thirdDataId))
@@ -69,11 +68,15 @@ ThirdTile.displayName = 'SecondaryTile';
 
 ThirdTile.propTypes = {
   isActive: propTypes.bool.isRequired,
-  // data: propTypes.shape(propTypes.oneOfType([propTypes.shape, propTypes.string])).isRequired,
-  storeData: propTypes.shape(propTypes.oneOfType([propTypes.shape, propTypes.string])).isRequired,
+  storeData: propTypes.shape(propTypes.oneOfType([propTypes.shape, propTypes.string])),
   type: propTypes.string.isRequired,
   setThirdActivity: propTypes.func.isRequired,
-  thirdDataId: propTypes.string.isRequired,
+  thirdDataId: propTypes.string,
+};
+
+ThirdTile.defaultProps = {
+  storeData: undefined,
+  thirdDataId: undefined,
 };
 
 // export default Tile(ThirdTile);
