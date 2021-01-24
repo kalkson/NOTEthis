@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const StyledAvatar = styled.div`
   border: solid 5px ${({ theme }) => theme.colors.background};
   position: absolute;
-  background-color: ${({ theme }) => theme.colors.primary};
   width: 90px;
   height: 90px;
   border-radius: 85px;
@@ -13,6 +12,11 @@ const StyledAvatar = styled.div`
   z-index: 0;
   right: 5%;
   top: 20px;
+
+  background: ${({ theme, url }) =>
+    url
+      ? `${theme.colors.primary} url(${url}) no-repeat center/cover;`
+      : theme.colors.primary};
 
   @media (min-width: 1024px) {
     width: 130px;
@@ -35,6 +39,12 @@ const StyledAvatar = styled.div`
     }
 
     &__button {
+      &:hover,
+      &:focus {
+        outline: none;
+        border: none;
+      }
+
       width: 100%;
       height: 100%;
       position: absolute;
@@ -51,6 +61,15 @@ const StyledAvatar = styled.div`
     &__button:hover {
       opacity: 1;
       cursor: pointer;
+    }
+
+    &__dispatchButton {
+      visibility: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 200px;
+      z-index: 5;
     }
   }
 `;

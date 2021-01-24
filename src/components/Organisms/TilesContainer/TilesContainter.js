@@ -39,6 +39,11 @@ const TilesContainer = ({
       document.querySelector('body').style.backgroundColor = userData.userColor;
     }
 
+    if (!auth.uid) {
+      setFirestoreFetched(false);
+      setStoreFetchingAvailable(false);
+    }
+
     if (auth && isStoreFetchingAvailable) sendStoreToFirebase(data, auth.uid);
   }, [data, userData]);
 
@@ -96,6 +101,7 @@ const TilesContainer = ({
         ]}
         userName={userData?.name}
         userColor={userData?.userColor}
+        userImage={userData?.userImage}
       />
       <SecondaryTile
         isActive={isSecondActive}

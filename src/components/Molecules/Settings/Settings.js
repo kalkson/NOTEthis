@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
 import ColorPicker, { useColor } from 'react-color-palette';
-import { modifyColor } from 'components/store/Actions/actions';
+import {
+  eraseStoreAfterSignOut,
+  modifyColor,
+} from 'components/store/Actions/actions';
 import { connect } from 'react-redux';
 import { signOut } from 'components/store/Actions/authActions';
 
@@ -19,7 +22,6 @@ const StyledSettings = styled.div`
   background: ${({ theme }) => theme.colors.secondary};
   bottom: 0;
   left: 0;
-  /* align-items: center; */
   font-size: 2.5rem;
 
   h4 {
@@ -90,13 +92,14 @@ const Settings = ({
   modifyUserColor,
   previousColor,
   signOutUser,
+  // eraseStore,
 }) => {
   const [color, setColor] = useColor('hex', previousColor || '#e5c373');
   const [t, setT] = useState(null);
   useEffect(() => {
     document.querySelector('body').style.backgroundColor = color.hex;
 
-    if (color.hex !== '#000000') {
+    if (color.hex !== '#000000' && previousColor) {
       clearTimeout(t);
       setT(setTimeout(() => modifyUserColor(color), 500));
     }
@@ -127,6 +130,7 @@ const Settings = ({
           onClick={() => {
             signOutUser();
             setSettingsPanelActive(false);
+            // eraseStore();
           }}
         >
           Wyloguj się
@@ -150,6 +154,7 @@ Settings.propTypes = {
   setSettingsPanelActive: propTypes.func.isRequired,
   modifyUserColor: propTypes.func.isRequired,
   signOutUser: propTypes.func.isRequired,
+  // eraseStore: propTypes.func.isRequired,
   previousColor: propTypes.string,
 };
 
@@ -161,6 +166,7 @@ const mapDispatchToProps = dispatch => {
   return {
     modifyUserColor: color => dispatch(modifyColor(color)),
     signOutUser: () => dispatch(signOut()),
+    eraseStore: () => dispatch(eraseStoreAfterSignOut()),
   };
 };
 

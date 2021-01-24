@@ -32,6 +32,7 @@ export const registerByEmail = credentials => {
           lists: { active: [], archived: [] },
           notes: { active: [] },
           userColor: '#e5c373',
+          userImage: '',
         };
 
         firestore
@@ -39,7 +40,7 @@ export const registerByEmail = credentials => {
           .doc(id)
           .set(userCollection)
           .then(() => {
-            dispatch({ type: 'REGISTER_SUCCESS' });
+            dispatch({ type: 'REGISTER_SUCCESS', userCollection });
           });
       })
       .catch(err => {

@@ -27,7 +27,7 @@ const authReducer = (state = initState, action) => {
 
     case 'REGISTER_SUCCESS':
       return {
-        ...state,
+        ...action.userCollection,
         authError: null,
       };
 

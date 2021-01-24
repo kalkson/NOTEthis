@@ -120,3 +120,31 @@ export const modifyColor = color => {
     dispatch({ type: 'COLOR_UPDATED', color: color.hex });
   };
 };
+
+export const eraseStoreAfterSignOut = () => {
+  return dispatch => {
+    dispatch({ type: 'ERASE_STORE' });
+  };
+};
+
+export const changeAvatar = image => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    const storage = firebase.storage();
+
+    const { id } = getState().data;
+
+    storage
+      .ref(`files/${id}.${image.name.split('.')[1]}`)
+      .put(image)
+      .then(() => {
+        storage
+          .ref(`files`)
+          .child(`${id}.${image.name.split('.')[1]}`)
+          .getDownloadURL()
+          .then(url => {
+            dispatch({ type: 'AVATAR_CHANGED', url });
+          });
+      });
+  };
+};

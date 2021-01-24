@@ -18,45 +18,15 @@ const throwToCompleted = (state, id) => {
 
 const initState = {
   notes: {
-    active: [
-      {
-        id: 1,
-        title: 'Ile lat ma Damian?',
-        content:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio iusto placeat dignissimos consectetur vitae magnam corporis similique quam, temporibus distinctio?',
-      },
-      {
-        id: 2,
-        title: 'Mama powiedziała',
-        content:
-          'Nie przejmuj się, bo sama przeyżywała i dobrze wie. Nie płaczę nie przeżywam to luz, plusowy luz',
-      },
-    ],
+    active: [],
   },
   lists: {
-    active: [
-      {
-        id: 5,
-        title: 'zakupy',
-        todos: ['jajka', 'ocet', 'mleko', 'mąka'],
-        completed: ['cukier', 'woda', 'bułki'],
-      },
-      {
-        id: 6,
-        title: 'do zrobienia na dziś',
-        todos: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-        completed: [],
-      },
-    ],
-    archived: [
-      {
-        id: 3,
-        title: 'jutro',
-        todos: [],
-        completed: ['Zakupy', 'Umyć się', 'pograć na kompie', 'zjeść obiad'],
-      },
-    ],
+    active: [],
+    archived: [],
   },
+  name: '',
+  userColor: '',
+  userImage: '',
 };
 
 const dataReducer = (state = initState, action) => {
@@ -266,10 +236,11 @@ const dataReducer = (state = initState, action) => {
     case 'ADD_TODOS': {
       const { id } = action;
       const isFine = state.lists.active.find(list => list.id === id) ? 1 : 0;
-      const { todos } =
+
+      const todos =
         isFine === 1
-          ? state.lists.active.find(list => list.id === id)
-          : state.lists.archived.find(list => list.id === id);
+          ? [...state.lists.active.find(list => list.id === id).todos]
+          : [...state.lists.archived.find(list => list.id === id).todos];
 
       if (todos.find(todo => todo.toLowerCase() === action.title.toLowerCase()))
         return state;
@@ -424,6 +395,17 @@ const dataReducer = (state = initState, action) => {
 
     case 'STORE_UPDATED': {
       return state;
+    }
+
+    case 'AVATAR_CHANGED': {
+      return {
+        ...state,
+        userImage: action.url,
+      };
+    }
+
+    case 'ERASE_STORE': {
+      return initState;
     }
 
     case 'COLOR_UPDATED': {

@@ -36,7 +36,7 @@ const SettingsButton = styled.button`
 `;
 
 const MainTile = forwardRef(
-  ({ handleClick, counters, type, userName, userColor }, ref) => {
+  ({ handleClick, counters, type, userName, userColor, userImage }, ref) => {
     const [isLoginPanelActive, setLoginPanelActive] = useState(false);
     const [isRegisterPanelActive, setRegisterPanelActive] = useState(false);
     const [isSettingsPanelActive, setSettingsPanelActive] = useState(false);
@@ -74,7 +74,7 @@ const MainTile = forwardRef(
 
     return (
       <StyledMainTile className="main" ref={ref}>
-        <Avatar />
+        <Avatar userImage={userImage} />
         <LogoSVG className="main__logo" />
 
         <h2>Cześć, {userName || 'nieznajomy'}!</h2>
@@ -151,6 +151,7 @@ MainTile.propTypes = {
   ),
   userName: propTypes.string,
   userColor: propTypes.string,
+  userImage: propTypes.string,
   // handleReveal: propTypes.func.isRequired,
 };
 
@@ -159,6 +160,7 @@ MainTile.defaultProps = {
   counters: [0, 0],
   type: null,
   userColor: null,
+  userImage: null,
 };
 
 export default MainTile;
