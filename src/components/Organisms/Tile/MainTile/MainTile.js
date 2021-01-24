@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import styled from 'styled-components';
 import Addnotation from 'components/Atoms/Addnotation/Addnotation';
@@ -30,10 +30,15 @@ const SettingsButton = styled.button`
 `;
 
 const MainTile = forwardRef(
-  ({ handleClick, counters, type, userName }, ref) => {
+  ({ handleClick, counters, type, userName, userColor }, ref) => {
     const [isLoginPanelActive, setLoginPanelActive] = useState(false);
     const [isRegisterPanelActive, setRegisterPanelActive] = useState(false);
     const [isSettingsPanelActive, setSettingsPanelActive] = useState(false);
+    const [userFetchedColor, setUserFetchedColor] = useState(userColor);
+
+    useEffect(() => {
+      setUserFetchedColor(userColor);
+    });
 
     const handleAuthClick = which => {
       if (which === 'login') {
@@ -118,6 +123,7 @@ const MainTile = forwardRef(
         <Settings
           isActive={isSettingsPanelActive}
           setSettingsPanelActive={setSettingsPanelActive}
+          previousColor={userFetchedColor}
         />
       </StyledMainTile>
     );
@@ -133,6 +139,7 @@ MainTile.propTypes = {
     propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.number])
   ),
   userName: propTypes.string,
+  userColor: propTypes.string,
   // handleReveal: propTypes.func.isRequired,
 };
 
@@ -140,6 +147,7 @@ MainTile.defaultProps = {
   userName: null,
   counters: [0, 0],
   type: null,
+  userColor: null,
 };
 
 export default MainTile;

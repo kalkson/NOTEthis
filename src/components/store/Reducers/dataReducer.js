@@ -426,6 +426,13 @@ const dataReducer = (state = initState, action) => {
       return state;
     }
 
+    case 'COLOR_UPDATED': {
+      return {
+        ...state,
+        userColor: action.color,
+      };
+    }
+
     default: {
       return state;
     }

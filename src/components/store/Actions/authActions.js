@@ -31,6 +31,7 @@ export const registerByEmail = credentials => {
           name: credentials.name,
           lists: { active: [], archived: [] },
           notes: { active: [] },
+          userColor: '#e5c373',
         };
 
         firestore

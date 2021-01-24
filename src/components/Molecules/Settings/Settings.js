@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
 import ColorPicker, { useColor } from 'react-color-palette';
+import { modifyColor } from 'components/store/Actions/actions';
+import { connect } from 'react-redux';
 
 const StyledSettings = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  /* border-top: solid 1px ${({ theme }) => theme.colors.secondary}; */
   padding: 30px 40px;
   display: flex;
   flex-direction: column;
@@ -58,18 +59,23 @@ const StyledSettings = styled.div`
     opacity 300ms ease-in-out;
 `;
 
-const Settings = ({ isActive, setSettingsPanelActive }) => {
-  const [color, setColor] = useColor('hex', '#121212');
-  //   const handleColorChange = colour => {
-  //     console.log('asd');
-  //     setColor(colour);
-  //     document.querySelector('body').style.backgroundColor = colour;
-  //   };
-
+const Settings = ({
+  isActive,
+  setSettingsPanelActive,
+  modifyUserColor,
+  previousColor,
+}) => {
+  const [color, setColor] = useColor('hex', previousColor || '#000000');
+  const [t, setT] = useState(null);
   useEffect(() => {
-    console.log(color);
+    // setColor(previousColor);
     document.querySelector('body').style.backgroundColor = color.hex;
-  }, [color]);
+
+    if (color.hex !== '#000000') {
+      clearTimeout(t);
+      setT(setTimeout(() => modifyUserColor(color), 500));
+    }
+  }, [color, previousColor]);
 
   return (
     <StyledSettings isActive={isActive}>
@@ -104,6 +110,16 @@ const Settings = ({ isActive, setSettingsPanelActive }) => {
 Settings.propTypes = {
   isActive: propTypes.bool.isRequired,
   setSettingsPanelActive: propTypes.func.isRequired,
+  modifyUserColor: propTypes.func.isRequired,
+  previousColor: propTypes.string,
 };
 
-export default Settings;
+Settings.defaultProps = {
+  previousColor: null,
+};
+
+const mapDispatchToProps = dispatch => {
+  return { modifyUserColor: color => dispatch(modifyColor(color)) };
+};
+
+export default connect(null, mapDispatchToProps)(Settings);
