@@ -4,12 +4,12 @@ import 'firebase/auth';
 import 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APP_ID,
+  apiKey: 'AIzaSyBp98ep4VNrBIZJLl5JjAImiHDehOaRJ1I',
+  authDomain: 'notethis-d1f1b.firebaseapp.com',
+  projectId: 'notethis-d1f1b',
+  storageBucket: 'notethis-d1f1b.appspot.com',
+  messagingSenderId: '50620521463',
+  appId: '1:50620521463:web:0bf88513739b2715c9acf2',
 };
 
 firebase.initializeApp(firebaseConfig);

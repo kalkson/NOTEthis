@@ -45,7 +45,7 @@ const TilesContainer = ({
     }
 
     if (auth && isStoreFetchingAvailable) sendStoreToFirebase(data, auth.uid);
-  }, [data, userData]);
+  }, [data]);
 
   const handleReveal = tile => {
     if (tile?.current) {

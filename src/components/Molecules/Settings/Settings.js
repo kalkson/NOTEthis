@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import propTypes from 'prop-types';
 import ColorPicker, { useColor } from 'react-color-palette';
 import {
-  eraseStoreAfterSignOut,
+  // eraseStoreAfterSignOut,
   modifyColor,
 } from 'components/store/Actions/actions';
 import { connect } from 'react-redux';
@@ -19,7 +19,7 @@ const StyledSettings = styled.div`
   transform: ${({ isActive }) =>
     isActive ? 'translateY(0)' : 'translateY(100%)'};
   opacity: ${({ isActive }) => (isActive ? 1 : 0)};
-  background: ${({ theme }) => theme.colors.secondary};
+  background: ${({ theme }) => theme.colors.background};
   bottom: 0;
   left: 0;
   font-size: 2.5rem;
@@ -166,7 +166,7 @@ const mapDispatchToProps = dispatch => {
   return {
     modifyUserColor: color => dispatch(modifyColor(color)),
     signOutUser: () => dispatch(signOut()),
-    eraseStore: () => dispatch(eraseStoreAfterSignOut()),
+    // eraseStore: () => dispatch(eraseStoreAfterSignOut()),
   };
 };
 
