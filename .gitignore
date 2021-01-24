@@ -28,5 +28,6 @@ firestore.rules
 firestore.indexes.json
 storage.rules
 .firebaserc
+/src/components/config
 
 .env
